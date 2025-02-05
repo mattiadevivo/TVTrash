@@ -1,0 +1,16 @@
+from typing import Literal, List
+
+Waste = Literal["Vegetale", "Secco", "Umido", "VPL", "Carta"]
+
+
+class CollectionSchedule:
+    def __init__(self, date: str, waste_list: List[Waste]) -> None:
+        self._date = date
+        self._waste_list = waste_list
+
+    @property
+    def date(self) -> str:
+        return self._date
+
+    def __str__(self):
+        return f"{self.date}: {self._waste_list}"

@@ -1,5 +1,8 @@
-class Comune:
-    def __init__(self, name: str, zone: str, area: str | None) -> None:
+from dataclasses import dataclass
+
+
+class Municipality:
+    def __init__(self, name: str, zone: str, area: str | None):
         self._name = name
         self._area = area
         self._zone = zone
