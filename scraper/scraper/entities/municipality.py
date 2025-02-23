@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from json import dumps
 
 
 class Municipality:
@@ -6,6 +6,9 @@ class Municipality:
         self._name = name
         self._area = area
         self._zone = zone
+
+    def __str__(self):
+        return dumps(self.__dict__)
 
     @property
     def name(self) -> str:

@@ -1,6 +1,6 @@
 import httpx
 from bs4 import BeautifulSoup, Tag, ResultSet
-from typing import List, cast, Dict
+from typing import List, cast
 from re import search
 
 from scraper.config import Settings
@@ -85,10 +85,13 @@ def scrape(url: str):
         municipalities = extract_municipality_from_table(table)
         if municipalities is None:
             continue
+        print(municipalities)
         collection_schedules = extract_collection_schedules(table, municipalities)
+        print(collection_schedules)
 
 
 if __name__ == "__main__":
     settings = Settings()
+    print(settings.model_dump())
     # Send a GET request to the webpage
     scrape(settings.page_url)

@@ -1,0 +1,16 @@
+{
+  "name": "supabase",
+  "description": "Supabase local environment",
+  "scripts": {
+    "start": "pnpx supabase start",
+    "start:db": "pnpx supabase db start",
+    "stop": "pnpx supabase stop",
+    "stop:db": "pnpx supabase db stop",
+    "migration:add": "pnpx supabase migration new schema",
+    "migration:apply": "pnpx supabase db reset",
+    "ui": "open http://127.0.0.1:54323"
+  },
+  "devDependencies": {
+    "supabase": "^2.12.1"
+  }
+}
