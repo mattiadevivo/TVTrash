@@ -1,13 +1,14 @@
+import json
 import httpx
 from bs4 import BeautifulSoup, Tag, ResultSet
 from typing import List, cast
 from re import search
 
-from scraper.adapters import Adapters
 from scraper.config import Settings
-from scraper.entities.municipality import Municipality
+from scraper.domains.waste.municipality import Municipality
 from scraper.entities.waste import CollectionSchedule, Waste
 from scraper.adapters import create as create_adapters
+from scraper.services import Services, create as create_services
 
 
 def get_page_content(url) -> bytes:
@@ -36,9 +37,9 @@ def extract_municipality_from_table(table: Tag) -> Municipality | None:
     if municipality_zone is not None and municipality_column is not None:
         municipality_with_area = municipality_column.getText("-", strip=True)
         return Municipality(
-            municipality_with_area.split("-")[0],
-            municipality_zone,
-            municipality_with_area.split("-")[1]
+            name=municipality_with_area.split("-")[0],
+            zone=municipality_zone,
+            area=municipality_with_area.split("-")[1]
             if municipality_with_area.find("-") != -1
             else None,
         )
@@ -74,7 +75,7 @@ def extract_collection_schedules(
     return collection_schedules
 
 
-def scrape(adapters: Adapters, url: str):
+def scrape(services: Services, url: str):
     page_content = get_page_content(url)
     # Create a BeautifulSoup object and specify the parser
     soup = BeautifulSoup(page_content, "html.parser")
@@ -87,8 +88,10 @@ def scrape(adapters: Adapters, url: str):
         municipality = extract_municipality_from_table(table)
         if municipality is None:
             continue
-        adapters.supabase.insert_municipality(municipality)  # TODO: fix
-        print(municipality)
+        services.municipality.create_municipality(
+            municipality.name, municipality.zone, municipality.area
+        )
+        # print(municipality.model_dump_json())
         collection_schedules = extract_collection_schedules(table, municipality)
         print(collection_schedules)
 
@@ -96,6 +99,11 @@ def scrape(adapters: Adapters, url: str):
 if __name__ == "__main__":
     settings = Settings()
     adapters = create_adapters(
-        {"supabase": {"key": settings.supabase_key, "url": settings.supabase_url}}
+        {
+            "db": {
+                "connection_string": settings.db_connection_string,
+            }
+        }
     )
-    scrape(adapters, settings.page_url)
+    services = create_services(config={}, adapters=adapters)
+    scrape(services, settings.page_url)

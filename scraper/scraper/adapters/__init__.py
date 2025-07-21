@@ -1,18 +1,18 @@
 from typing import TypedDict
 
 from attr import dataclass
-from scraper.adapters.supabase import Supabase, Config as SupabaseConfig
+from scraper.adapters.db import Config as DbConfig, Db
 
 
 class Config(TypedDict):
-    supabase: SupabaseConfig
+    db: DbConfig
 
 
 @dataclass
 class Adapters:
-    supabase: Supabase
+    db: Db
 
 
 def create(config: Config) -> Adapters:
-    supabase = Supabase(**config["supabase"])
-    return Adapters(supabase)
+    db = Db(**config["db"])
+    return Adapters(db)

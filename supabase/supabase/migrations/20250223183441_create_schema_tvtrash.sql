@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS tvtrash.municipalities
     name VARCHAR NOT NULL,
     area VARCHAR DEFAULT NULL,
     zone VARCHAR DEFAULT NULL,
-    created_at TIMESTAMPTZ NOT NULL,
-    updated_at TIMESTAMPTZ NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 
     PRIMARY KEY (id),
     CONSTRAINT name_area_zone_unique UNIQUE (name, area, zone)
@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS tvtrash.waste_collections
     id UUID NOT NULL DEFAULT uuid_generate_v4(),
     date DATE NOT NULL,
     waste VARCHAR NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL,
-    updated_at TIMESTAMPTZ NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     municipality_id UUID NOT NULL,
 
     PRIMARY KEY (id),

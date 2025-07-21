@@ -2,15 +2,20 @@
   "name": "supabase",
   "description": "Supabase local environment",
   "scripts": {
-    "start": "pnpm exec supabase start",
+    "start": "pnpm exec supabase start --debug",
     "start:db": "pnpm exec supabase db start",
-    "stop": "pnpm exec supabase stop",
+    "stop": "pnpm exec supabase stop --no-backup",
     "stop:db": "pnpm exec supabase db stop",
     "migration:add": "pnpm exec supabase migration new schema",
     "migration:apply": "pnpm exec supabase db reset",
     "ui": "open http://127.0.0.1:54323"
   },
   "devDependencies": {
-    "supabase": "^2.12.1"
+    "supabase": "^2.31.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "supabase"
+    ]
   }
 }
