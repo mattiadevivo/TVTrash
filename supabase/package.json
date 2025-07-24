@@ -8,6 +8,7 @@
     "stop:db": "pnpm exec supabase db stop",
     "migration:add": "pnpm exec supabase migration new schema",
     "migration:apply": "pnpm exec supabase db reset",
+    "functions": "supabase functions serve",
     "ui": "open http://127.0.0.1:54323"
   },
   "devDependencies": {

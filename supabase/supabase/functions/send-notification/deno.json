@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "@types/luxon": "npm:@types/luxon@^3.6.2",
+    "luxon": "npm:luxon@^3.7.1",
+    "supabase": "npm:@supabase/supabase-js@2"
+  },
+  "nodeModulesDir": "auto"
+}

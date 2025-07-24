@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS tvtrash.waste_collections
     CONSTRAINT date_waste_municipality_unique UNIQUE (date, waste, municipality_id),
     FOREIGN KEY (municipality_id) REFERENCES tvtrash.municipalities(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE INDEX IF NOT EXISTS waste_collections_date_idx ON tvtrash.waste_collections (date);
 
 CREATE TABLE IF NOT EXISTS tvtrash.notification_types
 (
@@ -51,8 +52,52 @@ CREATE TABLE IF NOT EXISTS tvtrash.notification_preferences
     user_id UUID NOT NULL,
     notification_type_id UUID NOT NULL,
     notification_info JSONB NOT NULL DEFAULT '{}',
+    municipality_id UUID NOT NULL,
 
     PRIMARY KEY (user_id, notification_type_id),
     FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (notification_type_id) REFERENCES tvtrash.notification_types(id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (notification_type_id) REFERENCES tvtrash.notification_types(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (municipality_id) REFERENCES tvtrash.municipalities(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+/* functions */
+CREATE OR REPLACE FUNCTION tvtrash.get_schedules_for_date(target_date DATE)
+RETURNS TABLE (
+    municipality_id UUID,
+    municipality_name VARCHAR,
+    area VARCHAR,
+    zone VARCHAR,
+    collection_date DATE,
+    waste VARCHAR[],
+    user_id UUID,
+    notification_type_name VARCHAR,
+    notification_type_info JSONB,
+    notification_info JSONB
+)
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    m.id AS municipality_id,
+    m.name AS municipality_name,
+    m.area,
+    m.zone,
+    wc.date AS collection_date,
+    wc.waste,
+    np.user_id,
+    nt.name AS notification_type_name,
+    nt.info AS notification_type_info,
+    np.notification_info
+  FROM tvtrash.waste_collections wc
+  JOIN tvtrash.municipalities m ON wc.municipality_id = m.id
+  JOIN tvtrash.notification_preferences np ON np.municipality_id = m.id
+  JOIN tvtrash.notification_types nt ON nt.id = np.notification_type_id
+  WHERE wc.date = target_date;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+GRANT EXECUTE ON FUNCTION tvtrash.get_schedules_for_date(date) TO anon, authenticated, service_role;
+/* end functions */
+
+/* Data */
+INSERT INTO tvtrash.notification_types (name, info) VALUES ('telegram', '{"http-api-token": "7272497005:AAFDM2DJuT5sWVbqC098M1zefPqIzdKyZjE"}');
