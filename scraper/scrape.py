@@ -71,7 +71,7 @@ def extract_collection_schedules(
                     date=datetime.strptime(date, "%d-%m-%Y").date(),
                     waste=cast(
                         List[Waste],
-                        s.split("&"),
+                        s.split("&") if len(s) > 0 else [],
                     ),
                     municipality_id=municipality.id,
                 )
