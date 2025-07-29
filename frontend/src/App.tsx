@@ -1,4 +1,9 @@
-import type { Component } from 'solid-js';
+import type { Component } from "solid-js";
+import { create as createConfig } from "./config";
+import { create as createSupabase } from "./supabase";
+
+const config = createConfig();
+const supabase = createSupabase(config.supabase);
 
 const App: Component = () => {
   return (
