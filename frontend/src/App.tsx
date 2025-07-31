@@ -1,12 +1,15 @@
-import { createSignal, ErrorBoundary, type Component } from "solid-js";
+import { createSignal, ErrorBoundary, JSX, type Component } from "solid-js";
+
 import { create as createConfig } from "./config";
 import { create as createSupabase } from "./supabase";
+import { Counter } from "./Counter";
 
 //const config = createConfig();
 //const supabase = createSupabase(config.supabase);
 
-const App: Component = () => {
-  const [count, setCount] = createSignal<number>(0);
+type Props = { children: JSX.Element };
+
+const App: Component = (props) => {
   return (
     <ErrorBoundary
       fallback={(error, reset) => (
@@ -16,10 +19,7 @@ const App: Component = () => {
         </div>
       )}
     >
-      <h1 class="text-3xl text-blue-700 text-center py-20">{count()}</h1>
-      <button onClick={() => setCount((previous) => previous + 1)}>
-        Increment
-      </button>
+      <Counter />
     </ErrorBoundary>
   );
 };

@@ -1,17 +1,18 @@
 import { z } from "zod";
 
 const EnvSchema = z.object({
-  SUPABASE_URL: z.string(),
-  SUPABASE_ANON_KEY: z.string(),
+  VITE_SUPABASE_URL: z.string(),
+  VITE_SUPABASE_ANON_KEY: z.string(),
 });
 
 export function create() {
+  console.log(import.meta.env);
   const envSchema = EnvSchema.parse(import.meta.env);
 
   return {
     supabase: {
-      url: envSchema.SUPABASE_URL,
-      anonKey: envSchema.SUPABASE_ANON_KEY,
+      url: envSchema.VITE_SUPABASE_URL,
+      anonKey: envSchema.VITE_SUPABASE_ANON_KEY,
     },
   };
 }
