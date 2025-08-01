@@ -14,30 +14,6 @@ import {
   Municipality,
 } from "../supabase";
 
-interface MunicipalityProps {
-  value: Municipality;
-}
-const MunicipalityComp: Component<MunicipalityProps> = (props) => {
-  return (
-    <table class="border-collapse border border-gray-400">
-      <thead>
-        <tr>
-          <th class="border border-gray-300 ...">Name</th>
-          <th class="border border-gray-300 ...">Area</th>
-          <th class="border border-gray-300 ...">Zone</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="border border-gray-300 ...">{props.value.name}</td>
-          <td class="border border-gray-300 ...">{props.value.area}</td>
-          <td class="border border-gray-300 ...">{props.value.zone}</td>
-        </tr>
-      </tbody>
-    </table>
-  );
-};
-
 export const Municipalities: Component = () => {
   const config = createConfig();
   const supabase = createSupabase(config.supabase);
@@ -54,9 +30,29 @@ export const Municipalities: Component = () => {
           <span>Error: {municipalities.error}</span>
         </Match>
         <Match when={municipalities()}>
-          <For each={municipalities()}>
-            {(municipality) => <MunicipalityComp value={municipality} />}
-          </For>
+          <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+            <table class="table">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Area</th>
+                  <th>Zone</th>
+                </tr>
+              </thead>
+              <tbody>
+                <For each={municipalities()}>
+                  {(municipality) => (
+                    <tr>
+                      <td>{municipality.name}</td>
+                      <td>{municipality.area}</td>
+                      <td>{municipality.zone}</td>
+                    </tr>
+                  )}
+                </For>
+              </tbody>
+            </table>
+          </div>
         </Match>
       </Switch>
     </>

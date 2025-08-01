@@ -3,7 +3,7 @@ import { createSignal, ErrorBoundary, JSX, type Component } from "solid-js";
 import { create as createConfig } from "./config";
 import { create as createSupabase } from "./supabase";
 import { Counter } from "./Counter";
-import { Navigation } from "@ui/Navbar";
+import { Navbar } from "@ui/navbar";
 import { Municipalities } from "./municipalities/Municipalities";
 
 //const config = createConfig();
@@ -19,7 +19,7 @@ const App: Component = (props) => {
         </div>
       )}
     >
-      <Navigation></Navigation>
+      <Navbar></Navbar>
       <Counter />
       <Municipalities></Municipalities>
     </ErrorBoundary>
