@@ -21,10 +21,10 @@
     "typescript": "^5.7.2",
     "vite": "^6.0.0",
     "vite-plugin-solid": "^2.11.6",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "daisyui": "^5.0.50"
   },
   "dependencies": {
-    "@ark-ui/solid": "^5.18.2",
     "@solidjs/router": "^0.15.3",
     "@supabase/supabase-js": "^2.53.0",
     "class-variance-authority": "^0.7.1",

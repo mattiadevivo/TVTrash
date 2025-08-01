@@ -1,17 +1,17 @@
 import { cva, VariantProps } from "class-variance-authority";
 import { Component, JSX, ParentComponent, ParentProps } from "solid-js";
 
-const buttonStyles = cva("flex items-center justify-center rounded-md", {
+const buttonStyles = cva("btn", {
   variants: {
     intent: {
-      primary: "bg-primary hover:bg-primary-hover text-white",
-      secondary: "bg-gray-500 text-white",
-      danger: "bg-red-500 text-white",
+      primary: "btn-primary",
+      secondary: "btn-secondary",
+      danger: "btn-error",
     },
     size: {
-      sm: "px-2 py-1 text-sm",
-      md: "px-4 py-2 text-md",
-      lg: "px-6 py-3 text-lg",
+      sm: "btn-sm",
+      md: "btn-md",
+      lg: "btn-lg",
     },
   },
   defaultVariants: {
