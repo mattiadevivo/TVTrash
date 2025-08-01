@@ -5,7 +5,7 @@ import { ThemeProvider } from "./context/theme";
 
 interface Props extends ParentProps {}
 
-const App: Component<Props> = (props) => {
+export const App: Component<Props> = (props) => {
   return (
     <ThemeProvider>
       <ErrorBoundary
@@ -22,5 +22,3 @@ const App: Component<Props> = (props) => {
     </ThemeProvider>
   );
 };
-
-export default App;

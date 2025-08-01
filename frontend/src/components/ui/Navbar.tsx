@@ -2,7 +2,7 @@ import { type Component } from "solid-js";
 import { A } from "@solidjs/router";
 
 import { Calendar, Settings, LogOut, Trash2 } from "lucide-solid";
-import { useTheme } from "../../context/theme";
+import { useTheme } from "../../app/context/theme";
 
 interface Navbar {
   currentUser?: { name: string; email: string } | null;

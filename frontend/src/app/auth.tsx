@@ -1,6 +1,6 @@
 import { createSignal } from "solid-js";
-import { create as createConfig } from "./config";
-import { create as createSupabase } from "./supabase";
+import { create as createConfig } from "../config";
+import { create as createSupabase } from "../supabase";
 
 export default function Auth() {
   const [loading, setLoading] = createSignal(false);

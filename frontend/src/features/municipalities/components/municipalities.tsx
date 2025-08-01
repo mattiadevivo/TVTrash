@@ -7,12 +7,12 @@ import {
   Show,
   Switch,
 } from "solid-js";
-import { create as createConfig } from "../config";
+import { create as createConfig } from "../../../config";
 import {
   create as createSupabase,
   getMunicipalities,
   Municipality,
-} from "../supabase";
+} from "../../../supabase";
 
 export const Municipalities: Component = () => {
   const config = createConfig();
