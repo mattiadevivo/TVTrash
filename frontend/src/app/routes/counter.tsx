@@ -1,7 +1,7 @@
 import { Button } from "@ui/button";
 import { Component, createSignal, onMount } from "solid-js";
 
-export const Counter: Component = (props) => {
+export const CounterPage: Component = (props) => {
   const [count, setCount] = createSignal<number>(0);
 
   return (

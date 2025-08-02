@@ -1,5 +1,6 @@
 import {
   Component,
+  createEffect,
   createResource,
   createSignal,
   For,
@@ -14,6 +15,7 @@ import {
 } from "../../supabase";
 import { Select } from "@ui/select";
 import { Table } from "@ui/table";
+import { Spinner } from "@ui/spinner";
 
 export const RootPage: Component = () => {
   const config = createConfig();
@@ -22,7 +24,7 @@ export const RootPage: Component = () => {
   const [municipalities] = createResource(supabase, getMunicipalities);
   const [municipalityId, setMunicipalityId] = createSignal<
     Municipality["id"] | null
-  >(null);
+  >(municipalities()?.[0]?.id || null);
   const [collectionSchedules] = createResource(
     municipalityId,
     async (municipalityId) => {
@@ -36,8 +38,15 @@ export const RootPage: Component = () => {
     }
   );
 
+  createEffect(() => {
+    // Set the first municipality as default when none is selected
+    if (municipalities() && municipalities().length > 0 && !municipalityId()) {
+      setMunicipalityId(municipalities()[0].id);
+    }
+  });
+
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Spinner />}>
       <Select
         value={municipalityId()}
         onChange={(value) => setMunicipalityId(value)}
@@ -54,14 +63,13 @@ export const RootPage: Component = () => {
       <Table>
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Type</th>
+            <th>Data</th>
+            <th>Rifiuti</th>
           </tr>
         </thead>
         <tbody>
           <For each={collectionSchedules()}>
             {(schedule) => {
-              console.log(schedule);
               return (
                 <tr>
                   <td>{new Date(schedule.date).toLocaleDateString()}</td>

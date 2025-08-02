@@ -34,10 +34,9 @@ export interface Props
 }
 
 export const Select: ParentComponent<Props> = (props) => {
-  const { variant, size } = props;
   return (
     <select
-      class={selectStyles({ variant, size })}
+      class={selectStyles({ variant: props.variant, size: props.size })}
       onChange={(e) => {
         console.log(e.currentTarget.value);
         props.onChange(e.currentTarget.value);

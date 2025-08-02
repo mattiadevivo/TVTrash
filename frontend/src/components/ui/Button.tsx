@@ -1,5 +1,5 @@
 import { cva, VariantProps } from "class-variance-authority";
-import { Component, JSX, ParentComponent, ParentProps } from "solid-js";
+import { JSX, ParentComponent, ParentProps } from "solid-js";
 
 const buttonStyles = cva("btn", {
   variants: {

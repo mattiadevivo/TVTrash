@@ -4,9 +4,9 @@ import { render } from "solid-js/web";
 
 import { Route, Router } from "@solidjs/router";
 import { App } from "./app";
-import { NotFound } from "./routes/notFound";
+import { NotFoundPage } from "./routes/notFound";
 import { Municipalities } from "../features/municipalities/components/municipalities";
-import { Counter } from "./counter";
+import { CounterPage } from "./routes/counter";
 import { RootPage } from "./routes/root";
 
 const root = document.getElementById("root");
@@ -22,7 +22,7 @@ render(
     <Router root={App}>
       <Route path="/" component={RootPage} />
       <Route path="/municipalities" component={Municipalities} />
-      <Route path="*paramName" component={NotFound} />
+      <Route path="*paramName" component={NotFoundPage} />
     </Router>
   ),
   root!

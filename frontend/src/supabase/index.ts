@@ -37,6 +37,7 @@ export async function getCollectionSchedulesByMunicipality(
     .from("waste_collections")
     .select()
     .eq("municipality_id", municipalityId)
-    .gte("date", new Date().toLocaleDateString("en-CA"));
+    .gte("date", new Date().toLocaleDateString("en-CA"))
+    .order("date", { ascending: true });
   return data;
 }
