@@ -1,5 +1,10 @@
 CREATE SCHEMA IF NOT EXISTS tvtrash;
 
+-- Enable pg_cron extension
+CREATE extension pg_cron WITH SCHEMA pg_catalog;
+GRANT usage ON SCHEMA cron TO postgres;
+GRANT all privileges ON all tables IN SCHEMA cron TO postgres;
+
 /*Add permissions*/
 GRANT USAGE ON SCHEMA tvtrash TO anon, authenticated, service_role;
 GRANT ALL ON ALL TABLES IN SCHEMA tvtrash TO anon, authenticated, service_role;
@@ -75,7 +80,7 @@ RETURNS TABLE (
     notification_info JSONB
 )
 LANGUAGE plpgsql
-SECURITY DEFINER SET search_path = ''
+SECURITY DEFINER SET search_path = 'tvtrash'
 AS $$
 BEGIN
   RETURN QUERY
@@ -113,7 +118,7 @@ RETURNS TABLE (
     notification_info JSONB
 )
 LANGUAGE plpgsql
-SECURITY DEFINER SET search_path = ''
+SECURITY DEFINER SET search_path = 'tvtrash'
 AS $$
 BEGIN
   RETURN QUERY
@@ -132,7 +137,7 @@ GRANT EXECUTE ON FUNCTION tvtrash.get_schedule_for_user(date, uuid) TO anon, aut
 SELECT
   cron.schedule(
     'send_collection_schedules_notification_every_day',
-    '0 9 * * SUN-THU', -- At 09:00 on every day-of-week from Sunday through Thursday.
+    '0 9 * * *', -- At 09:00 on every day-of-week.
     $$
     SELECT
       net.http_post(

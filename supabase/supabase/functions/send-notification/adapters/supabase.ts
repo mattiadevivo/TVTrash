@@ -11,7 +11,7 @@ export function create(
 ): Client {
     return createClient<Database>(
         config.url,
-        config.anonKey,
+        config.key,
         {
             global: {
                 headers: { Authorization: authorizationHeader },
@@ -43,6 +43,7 @@ export async function getSchedulesForDate(
             target_date: date.toJSDate().toLocaleDateString("en-CA"),
         });
     if (error) {
+        console.error("Error fetching schedules:", error);
         throw error;
     }
 

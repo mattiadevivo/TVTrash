@@ -47,6 +47,7 @@ Deno.serve(async (req: Request) => {
       notificationsSent++;
     }
   } catch (err) {
+    console.error(JSON.stringify(err));
     if (err instanceof z.ZodError) {
       return new Response(
         JSON.stringify({ message: err?.message ?? err, issues: err.issues }),
