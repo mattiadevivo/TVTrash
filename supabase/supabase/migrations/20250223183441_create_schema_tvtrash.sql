@@ -1,7 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS tvtrash;
 
 -- Enable pg_cron extension
-CREATE extension pg_cron WITH SCHEMA pg_catalog;
+CREATE extension IF NOT EXISTS pg_cron WITH SCHEMA pg_catalog;
 GRANT usage ON SCHEMA cron TO postgres;
 GRANT all privileges ON all tables IN SCHEMA cron TO postgres;
 

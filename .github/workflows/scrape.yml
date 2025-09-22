@@ -1,0 +1,36 @@
+name: Scrape waste collection data
+
+on:
+  schedule:
+    - cron: "0 0 * * sun"
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./scraper
+
+    env:
+      DB_CONNECTION_STRING: "postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ vars.DB_HOST }}:6543/postgres"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.8.14"
+      - name: Run scraper
+        run: uv run main.py
+      - name: Set up Python
+        run: uv python install
+      - name: Install the project
+        run: uv sync --locked
+      - name: Run the scraper
+        run: uv run scrape.py
