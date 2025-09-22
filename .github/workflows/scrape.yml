@@ -26,10 +26,6 @@ jobs:
         uses: astral-sh/setup-uv@v6
         with:
           version: "0.8.14"
-      - name: Run scraper
-        run: uv run main.py
-      - name: Set up Python
-        run: uv python install
       - name: Install the project
         run: uv sync --locked
       - name: Run the scraper
