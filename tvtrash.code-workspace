@@ -16,5 +16,8 @@
       "name": "infrastructure",
       "path": "./infrastructure"
     }
-  ]
+  ],
+  "extensions": {
+    "recommendations": ["biomejs.biome"]
+  }
 }
