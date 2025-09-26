@@ -1,36 +1,92 @@
-## Usage
+<p align="center">
+  <img src="public/favicon.png" alt="TVTrash Logo" width="96" height="96">
+</p>
 
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
+# TVTrash Frontend
 
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
+**TVTrash** is a webapp designed for residents of **Treviso, Italy**. It provides an intuitive interface to discover the official waste collection calendar from the local waste management company, helping you stay organized and eco-friendly.
+
+**Key Features:**
+- 📅 **Waste Collection Calendar:** Instantly check which waste types will be collected on any given day.
+- 🔔 **Telegram Notifications:** Configure reminders to get notified the day before collection, so you never miss a pickup.
+- 🌍 **Local Focus:** Tailored for Treviso city, with accurate, up-to-date data.
+
+---
+
+## 🚀 Quick Start
+
+Clone the repo and install dependencies:
 
 ```bash
-$ npm install # or pnpm install or yarn install
+git clone https://github.com/yourusername/TVTrash.git
+cd TVTrash/frontend
+npm install # or pnpm install or yarn install
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+Start the development server:
 
-## Available Scripts
+```bash
+npm run dev
+```
 
-In the project directory, you can run:
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-### `npm run dev` or `npm start`
+---
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 📦 Scripts
 
-The page will reload if you make edits.<br>
+- **`npm run dev`** – Start development server
+- **`npm run build`** – Build for production
+- **`npm start`** – Alias for dev
 
-### `npm run build`
+---
 
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
+## 🌐 Deployment
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+Build your app:
 
-## Deployment
+```bash
+npm run build
+```
 
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+Deploy the contents of the `dist` folder to any static host (Netlify, Vercel, Surge, etc.).
 
-## This project was created with the [Solid CLI](https://github.com/solidjs-community/solid-cli)
+---
+
+## 🤝 Community & Resources
+
+- [SolidJS Documentation](https://solidjs.com)
+- [Discord Community](https://discord.com/invite/solidjs)
+
+---
+
+## 🛠️ Tech Stack
+
+- **SolidJS** – Reactive UI library
+- **pnpm** – Fast, disk-efficient package manager
+
+---
+
+## 🏗️ Project Structure
+
+```
+frontend/
+├── public/
+│   └── favicon.png
+├── src/
+│   └── ...
+├── package.json
+└── README.md
+```
+
+---
+
+## ✨ Credits
+
+Created with [Solid CLI](https://github.com/solidjs-community/solid-cli).
+
+---
+
+<p align="center">
+  <img src="public/favicon.png" alt="TVTrash Logo" width="48" height="48">
+</p>

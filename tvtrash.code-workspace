@@ -15,9 +15,15 @@
     {
       "name": "infrastructure",
       "path": "./infrastructure"
+    },
+    {
+      "name": "root",
+      "path": "."
     }
   ],
   "extensions": {
-    "recommendations": ["biomejs.biome"]
+    "recommendations": [
+      "biomejs.biome"
+    ]
   }
 }
