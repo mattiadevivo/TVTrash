@@ -1,21 +1,21 @@
+import { useNavigate } from "@solidjs/router";
+import type { User } from "@supabase/supabase-js";
 import {
-  createContext,
-  useContext,
-  onMount,
-  onCleanup,
-  createSignal,
-  ParentComponent,
+	createContext,
+	createSignal,
+	onCleanup,
+	onMount,
+	type ParentComponent,
+	useContext,
 } from "solid-js";
-import { User } from "@supabase/supabase-js";
 import { create as createConfig } from "../../config";
 import { create as createSupabase } from "../../supabase";
-import { useNavigate } from "@solidjs/router";
 
 interface AuthContextType {
-  user: () => User | null;
-  loading: () => boolean;
-  signInWithMagicLink: (email: string) => Promise<void>;
-  signOut: () => Promise<void>;
+	user: () => User | null;
+	loading: () => boolean;
+	signInWithMagicLink: (email: string) => Promise<void>;
+	signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>();
@@ -24,93 +24,87 @@ const config = createConfig();
 const supabase = createSupabase(config.supabase);
 
 export const AuthProvider: ParentComponent = (props) => {
-  const [user, setUser] = createSignal<User | null>(null);
-  const [loading, setLoading] = createSignal(true);
-  const navigate = useNavigate();
+	const [user, setUser] = createSignal<User | null>(null);
+	const [loading, setLoading] = createSignal(true);
+	const navigate = useNavigate();
 
-  const redirectPage = "/";
+	const redirectPage = "/";
 
-  // Initialize auth state
-  onMount(async () => {
-    try {
-      // Get initial session
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-    } catch (error) {
-      console.error("Error getting session:", error);
-    } finally {
-      setLoading(false);
-    }
+	// Initialize auth state
+	onMount(async () => {
+		try {
+			// Get initial session
+			const {
+				data: { session },
+			} = await supabase.auth.getSession();
+			setUser(session?.user ?? null);
+		} catch (error) {
+			console.error("Error getting session:", error);
+		} finally {
+			setLoading(false);
+		}
 
-    // Listen for auth changes
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+		// Listen for auth changes
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange(async (event, session) => {
+			setUser(session?.user ?? null);
+			setLoading(false);
+		});
 
-    onCleanup(() => {
-      subscription.unsubscribe();
-    });
-  });
+		onCleanup(() => {
+			subscription.unsubscribe();
+		});
+	});
 
-  const signInWithMagicLink = async (email: string) => {
-    setLoading(true);
-    try {
-      const { data, error } = await supabase.auth.signInWithOtp({
-        email: email,
-        options: {
-          // set this to false if you do not want the user to be automatically signed up
-          shouldCreateUser: true,
-          emailRedirectTo: config.login.rediectUrl,
-        },
-      });
+	const signInWithMagicLink = async (email: string) => {
+		setLoading(true);
+		try {
+			const { data, error } = await supabase.auth.signInWithOtp({
+				email: email,
+				options: {
+					// set this to false if you do not want the user to be automatically signed up
+					shouldCreateUser: true,
+					emailRedirectTo: config.login.rediectUrl,
+				},
+			});
 
-      if (error) throw error;
+			if (error) throw error;
 
-      // If email confirmation is required, show message
-      if (data.user && !data.session) {
-        throw new Error("Please check your email to log in!");
-      }
-    } catch (error) {
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
+			// If email confirmation is required, show message
+			if (data.user && !data.session) {
+				throw new Error("Please check your email to log in!");
+			}
+		} finally {
+			setLoading(false);
+		}
+	};
 
-  const signOut = async () => {
-    setLoading(true);
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-    } catch (error) {
-      throw error;
-    } finally {
-      setLoading(false);
-      navigate(redirectPage);
-    }
-  };
+	const signOut = async () => {
+		setLoading(true);
+		try {
+			const { error } = await supabase.auth.signOut();
+			if (error) throw error;
+		} finally {
+			setLoading(false);
+			navigate(redirectPage);
+		}
+	};
 
-  const value = {
-    user,
-    loading,
-    signInWithMagicLink,
-    signOut,
-  };
+	const value = {
+		user,
+		loading,
+		signInWithMagicLink,
+		signOut,
+	};
 
-  return (
-    <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
-  );
+	return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
+	const context = useContext(AuthContext);
+	if (!context) {
+		throw new Error("useAuth must be used within an AuthProvider");
+	}
+	return context;
 };
