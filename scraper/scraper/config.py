@@ -9,6 +9,7 @@ class Settings(BaseSettings):
         default="https://contarina.it/cittadino/raccolta-differenziata/eco-calendario",
         description="The page where scrape the data from",
     )
-    db_connection_string: str = (
-        "postgresql://postgres:postgres@localhost:54322/postgres"
+    db_connection_string: str = Field(
+        default="postgresql://postgres:postgres@localhost:54322/postgres",
+        description="The connection string for the database",
     )
