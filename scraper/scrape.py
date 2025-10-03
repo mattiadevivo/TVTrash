@@ -4,12 +4,15 @@ from bs4 import BeautifulSoup, Tag, ResultSet
 from typing import List, cast
 from re import search
 
+from injector import Injector
+
 from scraper.config import Settings
 from scraper.domains.waste.municipality import Municipality
 from scraper.domains.waste.collection_schedule import CollectionSchedule, Waste
 
-from scraper.adapters import create as create_adapters
-from scraper.services import Services, create as create_services
+
+from scraper.adapters.db import Config as DbConfig
+from scraper.services import Services
 
 
 def get_page_content(url) -> bytes:
@@ -101,12 +104,10 @@ def scrape(services: Services, url: str):
 
 if __name__ == "__main__":
     settings = Settings()
-    adapters = create_adapters(
-        {
-            "db": {
-                "connection_string": settings.db_connection_string,
-            }
-        }
-    )
-    services = create_services(config={}, adapters=adapters)
+    # create DI injector
+    injector = Injector([])
+    # tell the injector how to construct DBConfig since it will be used to create other Injectable containers
+    injector.binder.bind(DbConfig, DbConfig(settings.db_connection_string))
+    # adapters = injector.get(Adapters) # can be used in the future for convenience
+    services = injector.get(Services)
     scrape(services, settings.page_url)

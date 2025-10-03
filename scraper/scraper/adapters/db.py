@@ -1,11 +1,23 @@
-from typing import TypedDict
+from attr import dataclass
+from injector import Module, inject, provider, singleton
 from sqlmodel import create_engine
 
 
-class Config(TypedDict):
+@dataclass
+class Config:
     connection_string: str
 
 
 class Db:
-    def __init__(self, connection_string: str):
-        self.engine = create_engine(connection_string)
+    @inject
+    def __init__(self, config: Config):
+        self.config = config
+        self.engine = create_engine(self.config.connection_string)
+
+
+class DbModule(Module):
+    @provider
+    @singleton
+    def provide_db(self, config: Config) -> Db:
+        connection = Db(config)
+        return connection

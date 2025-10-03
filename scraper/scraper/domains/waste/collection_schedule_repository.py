@@ -1,4 +1,5 @@
 from typing import Sequence
+from injector import Module, inject, provider, singleton
 from sqlalchemy.dialects.postgresql import insert
 from sqlmodel import Session
 from scraper.adapters.db import Db
@@ -6,6 +7,7 @@ from scraper.domains.waste.collection_schedule import CollectionSchedule
 
 
 class CollectionScheduleRepository:
+    @inject
     def __init__(self, db: Db) -> None:
         self.db = db.engine
 
@@ -26,3 +28,12 @@ class CollectionScheduleRepository:
             session.exec(insertStatement)  # type:ignore
             session.commit()
             return collection_schedules
+
+
+class CollectionScheduleModule(Module):
+    """Instruct the Injector what are the dependencies to get CollectionScheduleModule"""
+
+    @singleton
+    @provider
+    def provide_repository(self, db: Db) -> CollectionScheduleRepository:
+        return CollectionScheduleRepository(db)

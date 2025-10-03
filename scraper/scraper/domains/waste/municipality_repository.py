@@ -1,4 +1,5 @@
 from typing import Sequence
+from injector import Module, inject, provider, singleton
 from sqlalchemy.dialects.postgresql import insert
 from sqlmodel import Session, select
 from scraper.adapters.db import Db
@@ -6,6 +7,7 @@ from scraper.domains.waste.municipality import Municipality
 
 
 class MunicipalityRepository:
+    @inject
     def __init__(self, db: Db) -> None:
         self.db = db.engine
 
@@ -36,3 +38,12 @@ class MunicipalityRepository:
         with Session(self.db) as session:
             municipalities = session.exec(select(Municipality)).all()
             return municipalities
+
+
+class MunicipalityModule(Module):
+    """Instruct the Injector what are the dependencies to get MunicipalityRepository"""
+
+    @singleton
+    @provider
+    def provide_repository(self, db: Db) -> MunicipalityRepository:
+        return MunicipalityRepository(db)
