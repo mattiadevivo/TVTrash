@@ -32,7 +32,7 @@ indent-style = "tab"
 docstring-code-format = true
 
 [tool.coverage.run]
-omit = ["config.py"]
+omit = ["config.py", "*/scrape.py", "*/tests/*"]
 
 
 [dependency-groups]

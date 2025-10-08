@@ -1,16 +1,25 @@
+import unittest
 from unittest.mock import create_autospec
-from assertpy import assert_that
-from bs4 import BeautifulSoup, Tag
+from venv import create
+from assertpy import assert_that, assert_warn
+from bs4 import BeautifulSoup
 import httpx
 from injector import Injector
 import pytest
 from scraper.adapters import Adapters
 from scraper.adapters.db import Config as DbConfig
 from scraper.config import Settings
-from scraper.main import extract_municipality_from_table, get_page_content
+from scraper.domains.waste.municipality import Municipality
+from scraper.main import (
+	extract_and_save_collection_schedules,
+	extract_collection_schedules,
+	extract_municipality,
+	get_page_content,
+)
 from scraper.services import Services
 from scraper.services.collection_schedules import CollectionScheduleService
 from scraper.services.municipality import MunicipalityService
+from unittest.mock import patch
 
 
 @pytest.fixture
@@ -35,7 +44,7 @@ def services(
 	injector = Injector()
 	injector.binder.bind(DbConfig, DbConfig(settings.db_connection_string))
 	injector.binder.bind(MunicipalityService, municipality_service_mock)
-	injector.binder.bind(MunicipalityService, collection_schedule_service_mock)
+	injector.binder.bind(CollectionScheduleService, collection_schedule_service_mock)
 	return injector.get(Services)
 
 
@@ -54,7 +63,15 @@ def html_content() -> bytes:
 @pytest.fixture
 def municipality_table(html_content):
 	soup = BeautifulSoup(html_content, 'html.parser')
-	return soup.findAll(
+	return soup.find_all(
+		'table', attrs={'class': lambda x: x and x.startswith('table comune')}
+	)[1]
+
+
+@pytest.fixture
+def collection_schedule_table(html_content):
+	soup = BeautifulSoup(html_content, 'html.parser')
+	return soup.find_all(
 		'table', attrs={'class': lambda x: x and x.startswith('table comune')}
 	)[1]
 
@@ -85,11 +102,31 @@ def test_get_page_content_error(settings, adapters):
 	)
 
 
-def test_extract_municipality_from_table(municipality_table):
-	municipality = extract_municipality_from_table(municipality_table)
+def test_extract_municipality(municipality_table):
+	municipality = extract_municipality(municipality_table)
+	assert_that(municipality).is_instance_of(Municipality)
 
-	assert_that(municipality).is_not_none()
+
+def test_extract_collection_schedules(municipality_table):
+	collection_schedules = extract_collection_schedules(
+		municipality_table, Municipality(name='Arcade', zone='28', area=None)
+	)
+	assert_that(collection_schedules).is_type_of(list)
 
 
-# def test_scrape(settings, services):
-# assert scrape(settings, services) is None
+def test_extract_and_save_collection_schedules(
+	municipality_table,
+	services,
+):
+	municipality = Municipality(name='Arcade', zone='28', area=None)
+	services.municipality.create.return_value = municipality
+
+	with (
+		patch('scraper.main.extract_collection_schedules') as _,
+		patch('scraper.main.extract_municipality') as mock_extract_municipality,
+	):
+		mock_extract_municipality.return_value = municipality
+		extract_and_save_collection_schedules(municipality_table, services)
+
+	# assertions
+	services.municipality.create.assert_called_once()

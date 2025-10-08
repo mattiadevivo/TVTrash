@@ -19,7 +19,7 @@ def get_page_content(http_client: HttpClient, url: str) -> bytes:
 	return response.content
 
 
-def extract_municipality_from_table(table: Tag) -> Municipality | None:
+def extract_municipality(table: Tag) -> Municipality | None:
 	def extract_municipality_zone_from_class_attrs(attrs: list[str]) -> str | None:
 		"""Some municipalities have more than one zone, if present extract it"""
 		for attr in attrs:
@@ -81,7 +81,7 @@ def extract_collection_schedules(
 
 def extract_and_save_collection_schedules(table: Tag, services: Services):
 	assert isinstance(table, Tag)
-	municipality = extract_municipality_from_table(table)
+	municipality = extract_municipality(table)
 	if municipality is None:
 		return
 	municipality = services.municipality.create(
