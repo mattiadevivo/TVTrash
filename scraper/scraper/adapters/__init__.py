@@ -2,6 +2,7 @@ from attr import dataclass
 from injector import inject
 
 from scraper.adapters.db import Db
+from scraper.adapters.http import HttpClient
 
 
 @inject
@@ -10,3 +11,4 @@ class Adapters:
 	"""Convenience class you can fetch with injector.get(Adapters)"""
 
 	db: Db
+	http_client: HttpClient
