@@ -22,7 +22,7 @@ export const App: Component<Props> = (props) => {
 						</div>
 					)}
 				>
-					<main class="px-2 py-5 bg-base-200 sm:px-40">{props.children}</main>
+					<main class="px-2 py-5 bg-base-200 md:px-40">{props.children}</main>
 				</ErrorBoundary>
 				<Footer />
 			</AuthProvider>

@@ -37,5 +37,5 @@ render(
 			<Route path="*paramName" component={NotFoundPage} />
 		</Router>
 	),
-	root!,
+	root,
 );
