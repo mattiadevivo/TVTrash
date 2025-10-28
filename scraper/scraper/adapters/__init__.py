@@ -1,18 +1,14 @@
-from typing import TypedDict
-
 from attr import dataclass
-from scraper.adapters.db import Config as DbConfig, Db
+from injector import inject
+
+from scraper.adapters.db import Db
+from scraper.adapters.http import HttpClient
 
 
-class Config(TypedDict):
-    db: DbConfig
-
-
+@inject
 @dataclass
 class Adapters:
-    db: Db
+	"""Convenience class you can fetch with injector.get(Adapters)"""
 
-
-def create(config: Config) -> Adapters:
-    db = Db(**config["db"])
-    return Adapters(db)
+	db: Db
+	http_client: HttpClient
