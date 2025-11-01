@@ -8,11 +8,12 @@ GRANT all privileges ON all tables IN SCHEMA cron TO postgres;
 
 CREATE SCHEMA IF NOT EXISTS tvtrash;
 
-/* Schema usage for all roles */
+/* Make tvtrash schema public */
 GRANT USAGE ON SCHEMA tvtrash TO anon, authenticated, service_role;
 GRANT ALL ON ALL TABLES IN SCHEMA tvtrash TO anon, authenticated, service_role;
 GRANT ALL ON ALL ROUTINES IN SCHEMA tvtrash TO anon, authenticated, service_role;
 GRANT ALL ON ALL SEQUENCES IN SCHEMA tvtrash TO anon, authenticated, service_role;
+-- Give the same permissions for all the new tables that will be created in the tvtrash schema
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA tvtrash GRANT ALL ON TABLES TO anon, authenticated, service_role;
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA tvtrash GRANT ALL ON ROUTINES TO anon, authenticated, service_role;
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA tvtrash GRANT ALL ON SEQUENCES TO anon, authenticated, service_role;

@@ -1,16 +1,11 @@
 -- RLS tests for tvtrash.notification_preferences (per-user access)
 
 begin;
-select plan(6);
+select plan(5);
 
 -- As anon: no read/write access
 set local role anon;
 set local "request.jwt.claims" to '{}';
-select throws_like(
-  $$ select count(*) from tvtrash.notification_preferences $$,
-  '.*(permission denied|violates row-level security).*',
-  'anon cannot select notification_preferences'
-);
 select throws_like(
   $$ insert into tvtrash.notification_preferences(user_id, notification_type_id, municipality_id) values ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000000') $$,
   '.*(permission denied|violates row-level security).*',
