@@ -1,17 +1,19 @@
-CREATE SCHEMA IF NOT EXISTS tvtrash;
-
 -- Enable extension
 CREATE extension IF NOT EXISTS pg_cron WITH SCHEMA pg_catalog;
 CREATE extension IF NOT EXISTS pg_net WITH SCHEMA pg_net;
-
+-- "pgtap" is a unit testing framework for PostgreSQL
+create extension pgtap with schema extensions;
 GRANT usage ON SCHEMA cron TO postgres;
 GRANT all privileges ON all tables IN SCHEMA cron TO postgres;
 
-/*Add permissions*/
+CREATE SCHEMA IF NOT EXISTS tvtrash;
+
+/* Make tvtrash schema public */
 GRANT USAGE ON SCHEMA tvtrash TO anon, authenticated, service_role;
 GRANT ALL ON ALL TABLES IN SCHEMA tvtrash TO anon, authenticated, service_role;
 GRANT ALL ON ALL ROUTINES IN SCHEMA tvtrash TO anon, authenticated, service_role;
 GRANT ALL ON ALL SEQUENCES IN SCHEMA tvtrash TO anon, authenticated, service_role;
+-- Give the same permissions for all the new tables that will be created in the tvtrash schema
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA tvtrash GRANT ALL ON TABLES TO anon, authenticated, service_role;
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA tvtrash GRANT ALL ON ROUTINES TO anon, authenticated, service_role;
 ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA tvtrash GRANT ALL ON SEQUENCES TO anon, authenticated, service_role;
@@ -28,6 +30,12 @@ CREATE TABLE IF NOT EXISTS tvtrash.municipalities
     PRIMARY KEY (id),
     CONSTRAINT name_area_zone_unique UNIQUE (name, area, zone)
 );
+-- municipalities: public read, no writes (writes via service role only)
+ALTER TABLE tvtrash.municipalities ENABLE ROW LEVEL SECURITY;
+CREATE POLICY municipalities_select_public
+ON tvtrash.municipalities
+FOR SELECT
+USING (true);
 
 CREATE TABLE IF NOT EXISTS tvtrash.waste_collections
 (
@@ -43,6 +51,13 @@ CREATE TABLE IF NOT EXISTS tvtrash.waste_collections
     FOREIGN KEY (municipality_id) REFERENCES tvtrash.municipalities(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE INDEX IF NOT EXISTS waste_collections_date_idx ON tvtrash.waste_collections (date);
+-- waste_collections: public read, no writes (writes/cleanup via service role/owner)
+ALTER TABLE tvtrash.waste_collections ENABLE ROW LEVEL SECURITY;
+CREATE POLICY waste_collections_select_public
+ON tvtrash.waste_collections
+FOR SELECT
+USING (true);
+
 
 CREATE TABLE IF NOT EXISTS tvtrash.notification_types
 (
@@ -53,6 +68,12 @@ CREATE TABLE IF NOT EXISTS tvtrash.notification_types
     PRIMARY KEY (id),
     CONSTRAINT name_unique UNIQUE (name)
 );
+-- notification_types: public read, no writes
+ALTER TABLE tvtrash.notification_types ENABLE ROW LEVEL SECURITY;
+CREATE POLICY notification_types_select_public
+ON tvtrash.notification_types
+FOR SELECT
+USING (true);
 
 CREATE TABLE IF NOT EXISTS tvtrash.notification_preferences
 (
@@ -66,6 +87,41 @@ CREATE TABLE IF NOT EXISTS tvtrash.notification_preferences
     FOREIGN KEY (notification_type_id) REFERENCES tvtrash.notification_types(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (municipality_id) REFERENCES tvtrash.municipalities(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+-- Add useful indexes for joins on notification_preferences
+CREATE INDEX IF NOT EXISTS notification_preferences_municipality_id_idx
+  ON tvtrash.notification_preferences (municipality_id);
+CREATE INDEX IF NOT EXISTS notification_preferences_notification_type_id_idx
+  ON tvtrash.notification_preferences (notification_type_id);
+-- notification_preferences: per-user access
+ALTER TABLE tvtrash.notification_preferences ENABLE ROW LEVEL SECURITY;
+CREATE POLICY notification_preferences_select_own
+ON tvtrash.notification_preferences
+FOR SELECT
+TO authenticated
+USING ((select auth.uid()) IS NOT NULL AND (select auth.uid()) = user_id); -- check that user_id is the authenticated user in INSERT/UPDATE queries
+
+ALTER TABLE tvtrash.notification_preferences ENABLE ROW LEVEL SECURITY;
+CREATE POLICY notification_preferences_insert_own
+ON tvtrash.notification_preferences
+FOR INSERT
+TO authenticated
+WITH CHECK ((select auth.uid()) IS NOT NULL AND (select auth.uid()) = user_id); -- check that user_id is the authenticated user in INSERT/UPDATE queries
+
+ALTER TABLE tvtrash.notification_preferences ENABLE ROW LEVEL SECURITY;
+CREATE POLICY notification_preferences_update_own
+ON tvtrash.notification_preferences
+FOR UPDATE
+TO authenticated
+USING ((select auth.uid()) IS NOT NULL AND (select auth.uid()) = user_id)
+WITH CHECK ((select auth.uid()) IS NOT NULL AND (select auth.uid()) = user_id); -- check that user_id is the authenticated user in INSERT/UPDATE queries
+
+ALTER TABLE tvtrash.notification_preferences ENABLE ROW LEVEL SECURITY;
+CREATE POLICY notification_preferences_delete_own
+ON tvtrash.notification_preferences
+FOR DELETE
+TO authenticated
+USING ((select auth.uid()) IS NOT NULL AND (select auth.uid()) = user_id); -- check that user_id is the authenticated user in INSERT/UPDATE queries
+
 
 /* functions */
 CREATE OR REPLACE FUNCTION tvtrash.get_schedules_for_date(target_date DATE)
@@ -104,7 +160,7 @@ BEGIN
   WHERE wc.date = target_date AND array_length(wc.waste, 1) > 0;
 END;
 $$;
-GRANT EXECUTE ON FUNCTION tvtrash.get_schedules_for_date(date) TO anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION tvtrash.get_schedules_for_date(date) TO service_role;
 
 CREATE or REPLACE FUNCTION tvtrash.get_schedule_for_user(target_date DATE, target_user UUID)
 RETURNS TABLE (
@@ -119,16 +175,20 @@ RETURNS TABLE (
     notification_type_info JSONB,
     notification_info JSONB
 )
-LANGUAGE plpgsql
-SECURITY DEFINER SET search_path = ''
+LANGUAGE plpgsql  
+SECURITY INVOKER SET search_path = ''
 AS $$
 BEGIN
+  IF (select auth.role()) != 'service_role' AND target_user <> (select auth.uid()) THEN
+    RAISE EXCEPTION 'Forbidden: can only request your own schedule';
+  END IF;
+
   RETURN QUERY
   SELECT * FROM tvtrash.get_schedules_for_date(target_date) notifications
-  WHERE notifications.user_id = target_user;
+  WHERE notifications.user_id = (select auth.uid());
 END;
 $$ ;
-GRANT EXECUTE ON FUNCTION tvtrash.get_schedule_for_user(date, uuid) TO anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION tvtrash.get_schedule_for_user(date, uuid) TO authenticated, service_role;
 /* end functions */
 
 /* cron jobs */
