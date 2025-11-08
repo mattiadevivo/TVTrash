@@ -23,7 +23,11 @@
   ],
   "extensions": {
     "recommendations": [
-      "biomejs.biome"
+      "ms-python.python",
+      "biomejs.biome",
+      "denoland.vscode-deno",
+      "ms-azuretools.vscode-docker",
+      "bungcip.better-toml",
     ]
   }
 }
