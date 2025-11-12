@@ -8,10 +8,12 @@ on:
 
 env:
   TF_HTTP_PASSWORD: ${{ secrets.TF_HTTP_PASSWORD }}
+  TF_VAR_supabase_access_token: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+  TF_VAR_render_api_key: ${{ secrets.RENDER_API_KEY }}
 
 jobs:
   tofu:
-    name: 'Tofu Plan & Apply'
+    name: "Tofu Plan & Apply"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -26,14 +28,6 @@ jobs:
         with:
           tofu_version: "1.10.7"
 
-      - name: Setup authentication files
-        env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-        run: |
-          echo "$RENDER_API_KEY" > render-api-key
-          echo "$SUPABASE_ACCESS_TOKEN" > supabase-access-token
-
       - name: Tofu Init
         run: tofu init
 
@@ -42,7 +36,7 @@ jobs:
 
       - name: List files (debug)
         run: ls -la
-        
+
       - name: Tofu Plan
         id: plan
         run: tofu plan -input=false -out=plan.tfplan

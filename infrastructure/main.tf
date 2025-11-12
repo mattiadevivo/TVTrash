@@ -3,7 +3,7 @@ resource "supabase_project" "tvtrash" {
   organization_id   = var.supabase_organization_id
   name              = "tvtrash"
   region            = "eu-central-2"
-  database_password = file("${path.cwd}/supabase-access-token")
+  database_password = var.supabase_access_token
 
   lifecycle {
     ignore_changes = [database_password]
