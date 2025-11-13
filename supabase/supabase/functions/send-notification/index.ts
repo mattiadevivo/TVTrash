@@ -37,7 +37,6 @@ Deno.serve(async (req: Request) => {
 			telegram: telegramBot,
 		};
 		const tomorrow = DateTime.now().plus({ days: 1 });
-		console.log("getting collection schedules for date");
 		logger.info({ date: tomorrow }, "getting collection schedules for date");
 		const schedules = await getSchedulesForDate(supabase, tomorrow, user_id);
 		logger.debug(
@@ -51,6 +50,7 @@ Deno.serve(async (req: Request) => {
 		);
 	} catch (err) {
 		if (err instanceof z.ZodError) {
+			logger.error({ err }, "Validation error");
 			return new Response(
 				JSON.stringify({ message: err?.message ?? err, issues: err.issues }),
 				{
@@ -60,6 +60,7 @@ Deno.serve(async (req: Request) => {
 			);
 		}
 		const error: Error = err as Error;
+		logger.error({ err }, "Validation error");
 		return new Response(JSON.stringify({ message: error?.message ?? error }), {
 			headers: { "Content-Type": "application/json" },
 			status: 500,
