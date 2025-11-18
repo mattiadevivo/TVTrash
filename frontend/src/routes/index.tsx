@@ -1,26 +1,21 @@
-import { useNavigate } from "@solidjs/router";
+import { createFileRoute } from "@tanstack/solid-router";
 import { Select } from "@ui/select";
 import { Spinner } from "@ui/spinner";
-import {
-	type Component,
-	createEffect,
-	createResource,
-	createSignal,
-	For,
-	Suspense,
-} from "solid-js";
-import { useSupabase } from "../context/supabase";
-import { TelegramNotificationBanner } from "../../features/calendar/components/telegramBanner";
-import { CalendarTable } from "../../features/calendar/components/calendarTable";
+import { Component, createEffect, createResource, createSignal, For, Suspense } from "solid-js";
+import { TelegramNotificationBanner } from "../features/calendar/components/telegramBanner";
+import { CalendarTable } from "../features/calendar/components/calendarTable";
+import { useSupabase } from "../app/context/supabase";
 import {
 	getCollectionSchedulesByMunicipality,
 	getMunicipalities,
 	type Municipality,
-} from "../../supabase";
+} from "../supabase";
+import { useAuth } from "../app/context/auth";
 
-export const RootPage: Component = () => {
-	const navigate = useNavigate();
+const Calendar: Component = () => {
+	const navigate = Route.useNavigate();
 	const supabase = useSupabase();
+	const auth = useAuth();
 
 	const [municipalities] = createResource(supabase, getMunicipalities);
 	const [municipalityId, setMunicipalityId] = createSignal<Municipality["id"] | null>(
@@ -32,7 +27,7 @@ export const RootPage: Component = () => {
 	});
 
 	const handleConfigureNotifications = () => {
-		navigate("/account");
+		navigate({ to: "/account/notifications" }); // TODO: fix this
 	};
 
 	createEffect(() => {
@@ -40,6 +35,12 @@ export const RootPage: Component = () => {
 		if (municipalities() && municipalities().length > 0 && !municipalityId()) {
 			setMunicipalityId(municipalities()[0].id);
 		}
+		supabase.auth.getSession().then(({ data: { session } }) => {
+			// TODO: TRY
+		});
+		supabase.auth.onAuthStateChange((_event, session) => {
+			// TODO: TRY
+		});
 	});
 
 	return (
@@ -74,3 +75,7 @@ export const RootPage: Component = () => {
 		</Suspense>
 	);
 };
+
+export const Route = createFileRoute("/")({
+	component: Calendar,
+});

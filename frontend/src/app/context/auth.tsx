@@ -1,4 +1,4 @@
-import { useNavigate } from "@solidjs/router";
+import { useNavigate } from "@tanstack/solid-router";
 import type { User, Session } from "@supabase/supabase-js";
 import {
 	createContext,
@@ -26,41 +26,39 @@ const AuthContext = createContext<AuthContextType>();
 export const AuthProvider: ParentComponent = (props) => {
 	const config = useConfig();
 	const supabase = useSupabase();
-	const [user, setUser] = createSignal<User | null>(null);
-	const [loading, setLoading] = createSignal(true);
-	const navigate = useNavigate();
-
-	const redirectPage = "/";
+	//const [user, setUser] = createSignal<User | null>(null);
+	//const [loading, setLoading] = createSignal(true);
+	//const navigate = useNavigate();
 
 	// Initialize auth state
-	onMount(async () => {
-		try {
-			// Get initial session
-			const {
-				data: { session },
-			} = await supabase.auth.getSession();
-			setUser(session?.user ?? null);
-		} catch (error) {
-			console.error("Error getting session:", error);
-		} finally {
-			setLoading(false);
-		}
-
-		// Listen for auth changes
-		const {
-			data: { subscription },
-		} = supabase.auth.onAuthStateChange(async (_event, session) => {
-			setUser(session?.user ?? null);
-			setLoading(false);
-		});
-
-		onCleanup(() => {
-			subscription.unsubscribe();
-		});
-	});
+	//onMount(async () => {
+	//	try {
+	//		// Get initial session
+	//		const {
+	//			data: { session },
+	//		} = await supabase.auth.getSession();
+	//		setUser(session?.user ?? null);
+	//	} catch (error) {
+	//		console.error("Error getting session:", error);
+	//	} finally {
+	//		setLoading(false);
+	//	}
+	//
+	//	// Listen for auth changes
+	//	const {
+	//		data: { subscription },
+	//	} = supabase.auth.onAuthStateChange(async (_event, session) => {
+	//		setUser(session?.user ?? null);
+	//		setLoading(false);
+	//	});
+	//
+	//	//onCleanup(() => {
+	//	//	subscription.unsubscribe();
+	//	//});
+	//});
 
 	const signInWithMagicLink = async (email: string) => {
-		setLoading(true);
+		//setLoading(true);
 		try {
 			const { data, error } = await supabase.auth.signInWithOtp({
 				email: email,
@@ -78,18 +76,18 @@ export const AuthProvider: ParentComponent = (props) => {
 				throw new Error("Please check your email to log in!");
 			}
 		} finally {
-			setLoading(false);
+			//setLoading(false);
 		}
 	};
 
 	const signOut = async () => {
-		setLoading(true);
+		//setLoading(true);
 		try {
 			const { error } = await supabase.auth.signOut();
 			if (error) throw error;
 		} finally {
-			setLoading(false);
-			navigate(redirectPage);
+			//setLoading(false);
+			//navigate({ to: redirectPage });
 		}
 	};
 
@@ -100,8 +98,8 @@ export const AuthProvider: ParentComponent = (props) => {
 	};
 
 	const value = {
-		user,
-		loading,
+		user: () => null,
+		loading: () => false,
 		signInWithMagicLink,
 		signOut,
 		getSession,

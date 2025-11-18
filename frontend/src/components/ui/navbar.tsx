@@ -1,40 +1,39 @@
-import { A } from "@solidjs/router";
 import { type Component, Show } from "solid-js";
-import { useAuth } from "../../app/context/auth";
 import { UserMenu } from "../../features/auth/components/userMenu";
+import { Link } from "@tanstack/solid-router";
+import { Session } from "@supabase/supabase-js";
 
 interface Navbar {
-	currentUser?: { name: string; email: string } | null;
-	onLogout?: () => void;
+	session: Session | null;
+	onSignOut: () => Promise<void>;
 }
 
-export const Navbar: Component<Navbar> = (_props) => {
-	const auth = useAuth();
+export const Navbar: Component<Navbar> = (props) => {
 	return (
 		<div class="navbar justify-between bg-base-100 text-base-content shadow-sm">
 			<div class="flex-1">
-				<A class="btn btn-ghost text-xl" href="/">
-					<img src="/favicon.png" alt="TVTrash logo" class="size-8" />
+				<Link class="btn btn-ghost text-xl" to="/">
+					<img src="/favicon.png" alt="TVTrash logo" class="size-8 " />
 					TVTrash
-				</A>
+				</Link>
 			</div>
 
 			<div class="flex items-center h-14 gap-2">
-				<A href="/" class="btn btn-primary btn-sm">
+				<Link to="/" class="btn btn-primary btn-sm">
 					Calendar
-				</A>
+				</Link>
+
 				<Show
-					when={auth.user()}
+					when={props.session}
 					fallback={
-						<A href="/auth" class="btn btn-accent btn-sm">
+						<Link to="/login" class="btn btn-accent btn-sm">
 							Sign in
-						</A>
+						</Link>
 					}
 				>
-					<UserMenu />
+					{props.session && <UserMenu user={props.session.user} onSignOut={props.onSignOut} />}
 				</Show>
 			</div>
 		</div>
 	);
 };
-

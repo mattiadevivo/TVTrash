@@ -1,5 +1,5 @@
 import { createContext, type ParentComponent, useContext } from "solid-js";
-import { Config } from "../../config";
+import type { Config } from "../../config";
 
 import { create as createConfig } from "../../config";
 
@@ -10,7 +10,6 @@ interface ConfigContextType {
 const ConfigContext = createContext<ConfigContextType>();
 
 export const ConfigProvider: ParentComponent = (props) => {
-	// Config is synchronous (env-based). Create once per provider instance.
 	const cfg = createConfig();
 
 	return <ConfigContext.Provider value={{ config: cfg }}>{props.children}</ConfigContext.Provider>;
