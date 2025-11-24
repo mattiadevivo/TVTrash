@@ -17,7 +17,11 @@ export const Navbar: Component<Navbar> = (_props) => {
 		<div class="navbar justify-between bg-base-100 text-base-content shadow-sm">
 			<div class="flex-1">
 				<A class="btn btn-ghost text-xl" href="/">
-					<img src="/favicon.png" alt="TVTrash logo" class="size-8" />
+					<img
+						src="/favicon.png"
+						alt="TVTrash logo"
+						class="size-8 animate-spin [animation-duration:7s]"
+					/>
 					TVTrash
 				</A>
 			</div>
