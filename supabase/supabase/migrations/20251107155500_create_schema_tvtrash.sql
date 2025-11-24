@@ -189,28 +189,34 @@ BEGIN
 END;
 $$ ;
 GRANT EXECUTE ON FUNCTION tvtrash.get_schedule_for_date_and_user(date, uuid) TO authenticated, service_role;
+
+CREATE OR REPLACE FUNCTION tvtrash.call_edge_function_send_notification()
+RETURNS void 
+LANGUAGE plpgsql
+SECURITY DEFINER SET search_path = '' 
+AS $$
+BEGIN
+    -- Make the HTTP POST request to the edge function
+    perform net.http_post(
+        url:= (SELECT decrypted_secret FROM vault.decrypted_secrets WHERE name = 'project_url') || '/functions/v1/send-notification',
+        headers:=jsonb_build_object(
+            'Content-Type', 'application/json',
+            'Authorization', 'Bearer ' || (SELECT decrypted_secret FROM vault.decrypted_secrets WHERE name = 'secret_key'),
+            'apikey', (SELECT decrypted_secret FROM vault.decrypted_secrets WHERE name = 'secret_key')
+        )
+    ) AS request_id;
+END $$;
+GRANT EXECUTE ON FUNCTION tvtrash.call_edge_function_send_notification TO service_role;
 /* end functions */
 
 /* cron jobs */
---select vault.create_secret('https://project-ref.supabase.co', 'project_url');
---select vault.create_secret('YOUR_SUPABASE_ANON_KEY', 'publishable_key');
 -- Send notification every day at 09:00
 -- This will trigger the function to send notifications for the next day
 SELECT
   cron.schedule(
-    'send_collection_schedules_notification_every_day',
+    'send_daily_collection_schedules_notification',
     '0 9 * * *', -- At 09:00 on every day-of-week.
-    $$
-    SELECT
-      net.http_post(
-          url:= (select decrypted_secret from vault.decrypted_secrets where name = 'project_url') || '/functions/v1/send-notification',
-          headers:=jsonb_build_object(
-            'Content-type', 'application/json',
-            'Authorization', 'Bearer ' || (select decrypted_secret from vault.decrypted_secrets where name = 'secret_key'),
-            'apikey', (select decrypted_secret from vault.decrypted_secrets where name = 'secret_key')
-          )
-      ) AS request_id;
-    $$
+    $$SELECT tvtrash.call_edge_function_send_notification();$$
 );
 
 -- Cleanup old waste collections every Sunday at 09:00
