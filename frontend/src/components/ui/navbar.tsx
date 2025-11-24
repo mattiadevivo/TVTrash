@@ -1,7 +1,9 @@
 import { A } from "@solidjs/router";
 import { type Component, Show } from "solid-js";
 import { useAuth } from "../../app/context/auth";
+import { useI18n } from "../../i18n";
 import { UserMenu } from "../../features/auth/components/userMenu";
+import { LanguageSwitcher } from "./languageSwitcher";
 
 interface Navbar {
 	currentUser?: { name: string; email: string } | null;
@@ -10,6 +12,7 @@ interface Navbar {
 
 export const Navbar: Component<Navbar> = (_props) => {
 	const auth = useAuth();
+	const { t } = useI18n();
 	return (
 		<div class="navbar justify-between bg-base-100 text-base-content shadow-sm">
 			<div class="flex-1">
@@ -20,14 +23,15 @@ export const Navbar: Component<Navbar> = (_props) => {
 			</div>
 
 			<div class="flex items-center h-14 gap-2">
+				<LanguageSwitcher />
 				<A href="/" class="btn btn-primary btn-sm">
-					Calendar
+					{t("navbar.calendar")}
 				</A>
 				<Show
 					when={auth.user()}
 					fallback={
 						<A href="/auth" class="btn btn-accent btn-sm">
-							Sign in
+							{t("navbar.signIn")}
 						</A>
 					}
 				>
@@ -37,4 +41,3 @@ export const Navbar: Component<Navbar> = (_props) => {
 		</div>
 	);
 };
-

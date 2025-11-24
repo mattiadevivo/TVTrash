@@ -1,11 +1,13 @@
 // components/TelegramNotificationBanner.tsx
 import { createSignal, Show } from "solid-js";
+import { useI18n } from "../../../i18n";
 
 interface TelegramNotificationBannerProps {
 	onConfigureClick?: () => void;
 }
 
 export function TelegramNotificationBanner(props: TelegramNotificationBannerProps) {
+	const { t } = useI18n();
 	return (
 		<div class="alert alert-info shadow-lg mb-6">
 			<svg
@@ -23,10 +25,8 @@ export function TelegramNotificationBanner(props: TelegramNotificationBannerProp
 				></path>
 			</svg>
 			<div class="flex-1">
-				<h3 class="font-bold">Stay Updated with Telegram Notifications!</h3>
-				<div class="text-sm opacity-75 mt-1">
-					Configure your profile to receive calendar updates and reminders directly on Telegram.
-				</div>
+				<h3 class="font-bold">{t("calendar.banner.title")}</h3>
+				<div class="text-sm opacity-75 mt-1">{t("calendar.banner.description")}</div>
 			</div>
 			<div class="flex-none space-x-2">
 				<button
@@ -54,7 +54,7 @@ export function TelegramNotificationBanner(props: TelegramNotificationBannerProp
 							d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
 						/>
 					</svg>
-					Configure
+					{t("calendar.banner.configure")}
 				</button>
 			</div>
 		</div>
@@ -64,6 +64,7 @@ export function TelegramNotificationBanner(props: TelegramNotificationBannerProp
 // Enhanced version with more features
 export function TelegramNotificationCard() {
 	const [isExpanded, setIsExpanded] = createSignal(false);
+	const { t } = useI18n();
 
 	return (
 		<div class="card bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 shadow-md">
@@ -84,8 +85,8 @@ export function TelegramNotificationCard() {
 							</div>
 						</div>
 						<div>
-							<h3 class="card-title text-lg">Telegram Notifications</h3>
-							<p class="text-sm text-gray-600">Get calendar updates directly in Telegram</p>
+							<h3 class="card-title text-lg">{t("calendar.banner.cardTitle")}</h3>
+							<p class="text-sm text-gray-600">{t("calendar.banner.cardDescription")}</p>
 						</div>
 					</div>
 					<button
@@ -110,33 +111,33 @@ export function TelegramNotificationCard() {
 				<Show when={isExpanded()}>
 					<div class="mt-4 space-y-3">
 						<div class="bg-white p-3 rounded-lg border">
-							<h4 class="font-semibold text-sm mb-2">Benefits:</h4>
+							<h4 class="font-semibold text-sm mb-2">{t("calendar.banner.benefits")}</h4>
 							<ul class="text-sm space-y-1 text-gray-600">
 								<li class="flex items-center space-x-2">
 									<div class="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-									<span>Instant notifications for new events</span>
+									<span>{t("calendar.banner.benefit1")}</span>
 								</li>
 								<li class="flex items-center space-x-2">
 									<div class="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-									<span>Reminders before important dates</span>
+									<span>{t("calendar.banner.benefit2")}</span>
 								</li>
 								<li class="flex items-center space-x-2">
 									<div class="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-									<span>Municipality-specific updates</span>
+									<span>{t("calendar.banner.benefit3")}</span>
 								</li>
 								<li class="flex items-center space-x-2">
 									<div class="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-									<span>Weekly calendar summaries</span>
+									<span>{t("calendar.banner.benefit4")}</span>
 								</li>
 							</ul>
 						</div>
 
 						<div class="card-actions">
 							<a href="/account" class="btn btn-primary btn-sm">
-								Set Up Notifications
+								{t("calendar.banner.setup")}
 							</a>
 							<button type="button" class="btn btn-ghost btn-sm">
-								Learn More
+								{t("calendar.banner.learnMore")}
 							</button>
 						</div>
 					</div>

@@ -1,8 +1,10 @@
 import { type Component, Show } from "solid-js";
 import { useTheme } from "../../../app/context/theme";
+import { useI18n } from "../../../i18n";
 
 export const ThemeFloatButton: Component = () => {
 	const { theme, setTheme } = useTheme();
+	const { t } = useI18n();
 
 	const toggle = () => {
 		setTheme(theme() === "dark" ? "light" : "dark");
@@ -11,7 +13,7 @@ export const ThemeFloatButton: Component = () => {
 	return (
 		<button
 			type="button"
-			aria-label="Toggle color theme"
+			aria-label={t("theme.toggle")}
 			onClick={toggle}
 			class="fixed bottom-4 right-4 z-50 btn btn-circle bg-base-100 text-base-content border border-base-400 shadow-lg hover:shadow-xl"
 		>
@@ -25,7 +27,7 @@ export const ThemeFloatButton: Component = () => {
 						viewBox="0 0 24 24"
 						class="size-5"
 					>
-						<title>Switch to dark mode</title>
+						<title>{t("theme.switchToDark")}</title>
 						<g
 							stroke-linejoin="round"
 							stroke-linecap="round"
@@ -45,7 +47,7 @@ export const ThemeFloatButton: Component = () => {
 					viewBox="0 0 24 24"
 					class="size-5"
 				>
-					<title>Switch to light mode</title>
+					<title>{t("theme.switchToLight")}</title>
 					<g
 						stroke-linejoin="round"
 						stroke-linecap="round"
