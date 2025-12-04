@@ -84,15 +84,15 @@ export const it = {
 	calendar: {
 		title: "Calendario",
 		description:
-			"Controlla il calendario della raccolta rifiuti per il tuo comune in provincia di Treviso",
+			"Controlla il calendario della raccolta rifiuti per il tuo comune nella provincia di Treviso",
 		table: {
 			date: "Data",
-			waste: "Rifiuto",
+			waste: "Rifiuti",
 		},
 		banner: {
 			title: "Rimani aggiornato con le notifiche Telegram!",
 			description:
-				"Configura il tuo profilo per ricevere aggiornamenti del calendario e promemoria direttamente su Telegram.",
+				"Configura il tuo profilo per ricevere i promemoria giornalieri direttamente su Telegram.",
 			configure: "Configura",
 			cardTitle: "Notifiche Telegram",
 			cardDescription: "Ricevi aggiornamenti del calendario direttamente su Telegram",
@@ -107,7 +107,7 @@ export const it = {
 	},
 	footer: {
 		copyright: "Copyright © {{year}} - Tutti i diritti riservati",
-		madeBy: "Fatto con ❤️ da",
+		madeBy: "Sviluppato con ❤️ da",
 	},
 	navbar: {
 		calendar: "Calendario",

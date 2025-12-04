@@ -1,4 +1,3 @@
-// components/TelegramNotificationBanner.tsx
 import { createSignal, Show } from "solid-js";
 import { useI18n } from "../../../i18n";
 
@@ -9,20 +8,15 @@ interface TelegramNotificationBannerProps {
 export function TelegramNotificationBanner(props: TelegramNotificationBannerProps) {
 	const { t } = useI18n();
 	return (
-		<div class="alert alert-info shadow-lg mb-6">
+		<div class="alert alert-info alert-soft shadow-lg mb-6">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				fill="none"
+				fill="currentColor"
 				viewBox="0 0 24 24"
-				class="stroke-current shrink-0 w-6 h-6"
+				class="size-6 text-blue-500"
 			>
-				<title>Info icon</title>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-					d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-				></path>
+				<title>Telegram logo</title>
+				<path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
 			</svg>
 			<div class="flex-1">
 				<h3 class="font-bold">{t("calendar.banner.title")}</h3>
@@ -56,92 +50,6 @@ export function TelegramNotificationBanner(props: TelegramNotificationBannerProp
 					</svg>
 					{t("calendar.banner.configure")}
 				</button>
-			</div>
-		</div>
-	);
-}
-
-// Enhanced version with more features
-export function TelegramNotificationCard() {
-	const [isExpanded, setIsExpanded] = createSignal(false);
-	const { t } = useI18n();
-
-	return (
-		<div class="card bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 shadow-md">
-			<div class="card-body">
-				<div class="flex items-start justify-between">
-					<div class="flex items-center space-x-3">
-						<div class="avatar placeholder">
-							<div class="bg-blue-500 text-white rounded-full w-12 h-12">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="currentColor"
-									viewBox="0 0 24 24"
-									class="w-6 h-6"
-								>
-									<title>Info logo</title>
-									<path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
-								</svg>
-							</div>
-						</div>
-						<div>
-							<h3 class="card-title text-lg">{t("calendar.banner.cardTitle")}</h3>
-							<p class="text-sm text-gray-600">{t("calendar.banner.cardDescription")}</p>
-						</div>
-					</div>
-					<button
-						class="btn btn-circle btn-ghost btn-sm"
-						type="button"
-						onClick={() => setIsExpanded(!isExpanded())}
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class={`w-4 h-4 transition-transform ${isExpanded() ? "rotate-180" : ""}`}
-						>
-							<title>Settings icon</title>
-							<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-						</svg>
-					</button>
-				</div>
-
-				<Show when={isExpanded()}>
-					<div class="mt-4 space-y-3">
-						<div class="bg-white p-3 rounded-lg border">
-							<h4 class="font-semibold text-sm mb-2">{t("calendar.banner.benefits")}</h4>
-							<ul class="text-sm space-y-1 text-gray-600">
-								<li class="flex items-center space-x-2">
-									<div class="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-									<span>{t("calendar.banner.benefit1")}</span>
-								</li>
-								<li class="flex items-center space-x-2">
-									<div class="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-									<span>{t("calendar.banner.benefit2")}</span>
-								</li>
-								<li class="flex items-center space-x-2">
-									<div class="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-									<span>{t("calendar.banner.benefit3")}</span>
-								</li>
-								<li class="flex items-center space-x-2">
-									<div class="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-									<span>{t("calendar.banner.benefit4")}</span>
-								</li>
-							</ul>
-						</div>
-
-						<div class="card-actions">
-							<a href="/account" class="btn btn-primary btn-sm">
-								{t("calendar.banner.setup")}
-							</a>
-							<button type="button" class="btn btn-ghost btn-sm">
-								{t("calendar.banner.learnMore")}
-							</button>
-						</div>
-					</div>
-				</Show>
 			</div>
 		</div>
 	);
