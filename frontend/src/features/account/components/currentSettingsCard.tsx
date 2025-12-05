@@ -51,12 +51,12 @@ export const CurrentSettingsCard: Component<Props> = (props) => {
 								: t("account.currentSettings.notSet")}
 						</span>
 					</div>
-					<Show when={props.isConfigured}>
-						<Button intent="danger" onClick={props.onDelete}>
-							{t("account.currentSettings.deletePreference")}
-						</Button>
-					</Show>
 				</div>
+				<Show when={props.isConfigured}>
+					<Button intent="danger" onClick={props.onDelete}>
+						{t("account.currentSettings.deletePreference")}
+					</Button>
+				</Show>
 			</div>
 		</div>
 	);

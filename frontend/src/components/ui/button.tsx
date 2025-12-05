@@ -15,16 +15,16 @@ const buttonStyles = cva("btn", {
 		},
 		shape: {
 			circle: "btn-circle",
-			square: "btn-square",
+			square: "btn-square", // 1:1 ratio
 		},
 		shadow: {
 			lg: "shadow-lg hover:shadow-xl",
 		},
+		width: {
+			full: "w-full",
+		},
 	},
-	defaultVariants: {
-		size: "md",
-		shape: "square",
-	},
+	defaultVariants: {},
 });
 
 export interface Props
@@ -35,7 +35,7 @@ export interface Props
 export const Button: ParentComponent<Props> = (props) => {
 	const { intent, size, shape, shadow } = props;
 	return (
-		<button type="button" class={buttonStyles({ intent, size, shape })} {...props}>
+		<button type="button" class={buttonStyles({ intent, size, shape, shadow })} {...props}>
 			{props.children}
 		</button>
 	);
