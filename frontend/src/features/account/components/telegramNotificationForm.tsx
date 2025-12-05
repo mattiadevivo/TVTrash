@@ -1,5 +1,5 @@
-import { For, Show, type Component } from "solid-js";
 import { Select } from "@ui/select";
+import { type Component, For, Show } from "solid-js";
 import { useI18n } from "../../../app/context/i18n";
 import type { Municipality } from "../../../supabase";
 

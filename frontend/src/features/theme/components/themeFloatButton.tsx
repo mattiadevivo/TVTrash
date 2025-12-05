@@ -1,7 +1,7 @@
-import { type Component, Show } from "solid-js";
-import { useTheme } from "../../../app/context/theme";
-import { useI18n } from "../../../app/context/i18n";
 import { Button } from "@ui/button";
+import { type Component, Show } from "solid-js";
+import { useI18n } from "../../../app/context/i18n";
+import { useTheme } from "../../../app/context/theme";
 
 export const ThemeFloatButton: Component = () => {
 	const { theme, setTheme } = useTheme();

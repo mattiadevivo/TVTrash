@@ -2,8 +2,9 @@ import { Button } from "@ui/button";
 import { Spinner } from "@ui/spinner";
 import { createEffect, createMemo, createResource, createSignal, Show, Suspense } from "solid-js";
 import { useAuth } from "../../app/context/auth";
-import { useSupabase } from "../context/supabase";
-import { useI18n } from "../context/i18n";
+import { CurrentSettingsCard } from "../../features/account/components/currentSettingsCard";
+import { InstructionsCard } from "../../features/account/components/instructionsCard";
+import { TelegramNotificationForm } from "../../features/account/components/telegramNotificationForm";
 import type { TelegramNotificationInfo } from "../../features/account/schemas/notification";
 import { getMunicipalities, type Municipality } from "../../supabase";
 import {
@@ -14,9 +15,8 @@ import {
 	saveNotificationPreference,
 	sendTestMessage,
 } from "../../supabase/account";
-import { TelegramNotificationForm } from "../../features/account/components/telegramNotificationForm";
-import { InstructionsCard } from "../../features/account/components/instructionsCard";
-import { CurrentSettingsCard } from "../../features/account/components/currentSettingsCard";
+import { useI18n } from "../context/i18n";
+import { useSupabase } from "../context/supabase";
 
 export function AccountPage() {
 	const supabase = useSupabase();

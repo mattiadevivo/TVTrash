@@ -9,15 +9,15 @@ import {
 	For,
 	Suspense,
 } from "solid-js";
-import { useSupabase } from "../context/supabase";
-import { useI18n } from "../context/i18n";
-import { TelegramNotificationBanner } from "../../features/calendar/components/telegramBanner";
 import { CalendarTable } from "../../features/calendar/components/calendarTable";
+import { TelegramNotificationBanner } from "../../features/calendar/components/telegramBanner";
 import {
 	getCollectionSchedulesByMunicipality,
 	getMunicipalities,
 	type Municipality,
 } from "../../supabase";
+import { useI18n } from "../context/i18n";
+import { useSupabase } from "../context/supabase";
 
 export const RootPage: Component = () => {
 	const navigate = useNavigate();

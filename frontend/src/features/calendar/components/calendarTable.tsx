@@ -1,7 +1,7 @@
 import { Table } from "@ui/table";
-import { For, type Component } from "solid-js";
-import type { CollectionSchedule } from "../../../supabase";
+import { type Component, For } from "solid-js";
 import { useI18n } from "../../../app/context/i18n";
+import type { CollectionSchedule } from "../../../supabase";
 
 interface Props {
 	schedules: CollectionSchedule[] | undefined;

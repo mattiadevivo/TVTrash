@@ -18,8 +18,8 @@ const buttonStyles = cva("btn", {
 			square: "btn-square",
 		},
 		shadow: {
-			lg: "shadow-lg hover:shadow-xl"
-		}
+			lg: "shadow-lg hover:shadow-xl",
+		},
 	},
 	defaultVariants: {
 		size: "md",

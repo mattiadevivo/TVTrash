@@ -1,13 +1,13 @@
+import { type Flatten, flatten, resolveTemplate, translator } from "@solid-primitives/i18n";
 import {
-	createContext,
-	useContext,
-	createSignal,
-	createMemo,
 	type Accessor,
+	createContext,
+	createMemo,
+	createSignal,
 	type JSX,
+	useContext,
 } from "solid-js";
-import { flatten, translator, resolveTemplate, type Flatten } from "@solid-primitives/i18n";
-import { en, it, type Dictionary } from "../../i18n/dictionaries";
+import { type Dictionary, en, it } from "../../i18n/dictionaries";
 
 const dicts = {
 	en,
@@ -29,7 +29,7 @@ export function I18nProvider(props: { children: JSX.Element }) {
 
 	const dict = createMemo(() => flatten(dicts[locale()]));
 
-	// @ts-ignore - types mismatch between dictionary and flattened dictionary in the library types but it works at runtime
+	// @ts-expect-error - types mismatch between dictionary and flattened dictionary in the library types but it works at runtime
 	const t = translator(dict, resolveTemplate);
 
 	return (
