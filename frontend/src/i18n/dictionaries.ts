@@ -15,6 +15,22 @@ export const it = {
 		logout: "Esci",
 		user: "Utente",
 	},
+	landing: {
+		hero: {
+			title: "Non dimenticare mai più di buttare la spazzatura!",
+			description:
+				"Ricevi un reminder su Telegram ogni giorno con i dettagli dei bidoni da portare in strada per la raccolta rifiuti del giorno successivo, nel tuo comune in provincia di Treviso. Semplice, puntuale e gratuito. Nessuna installazione necessaria!",
+			ctaCalendar: "Vai al Calendario",
+			ctaAuth: "Accedi per configurare le notifiche",
+		},
+		mockup: {
+			notification: {
+				title: "TVTrash	",
+				body: "🗑️ Promemoria: Domani raccolta Plastica e Carta.",
+				time: "20:00",
+			},
+		},
+	},
 	account: {
 		profile: "Profilo",
 		notificationSettings: "Impostazioni Notifiche",
@@ -142,6 +158,22 @@ export const en = {
 		loginRequired: "You need to be logged in to access this page.",
 		logout: "Logout",
 		user: "User",
+	},
+	landing: {
+		hero: {
+			title: "Never forget to take out the trash again!",
+			description:
+				"Receive a notification on Telegram everyday with details about the next day's waste collection, for your municipality in Treviso province. Simple, punctual, and free. No installation required!",
+			ctaCalendar: "Go to Calendar",
+			ctaAuth: "Sign In for Notifications",
+		},
+		mockup: {
+			notification: {
+				title: "TVTrash",
+				body: "🗑️ Reminder: Tomorrow Plastic and Paper collection.",
+				time: "8:00 PM",
+			},
+		},
 	},
 	account: {
 		profile: "Profile",
