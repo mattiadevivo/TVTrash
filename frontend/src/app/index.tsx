@@ -7,8 +7,9 @@ import { render } from "solid-js/web";
 import { ProtectedRoute } from "../features/auth/components/protectedRoute";
 import { App } from "./app";
 import { AccountPage } from "./routes/account";
-import { AuthPage } from "./routes/auth";
 import { RootPage } from "./routes/calendar";
+import { LandingPage } from "./routes/landing";
+import { AuthPage } from "./routes/login";
 import { NotFoundPage } from "./routes/notFound";
 
 const root = document.getElementById("root");
@@ -22,17 +23,17 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 render(
 	() => (
 		<Router root={App}>
-			<Route path="/" component={RootPage} />
+			<Route path="/" component={LandingPage} />
+			<Route path="/calendar" component={RootPage} />
 			<Route
 				path="/account"
-				component={() => (
-					<ProtectedRoute>
-						<AccountPage />
-					</ProtectedRoute>
-				)}
-			/>
-			<Route path="/auth" component={AuthPage} />
-			<Route path="*paramName" component={NotFoundPage} />
+				component={(props) => <ProtectedRoute>{props.children}</ProtectedRoute>}
+			>
+				{/*<Route path="/" c></Route>*/}
+				<Route path="/notifications" component={AccountPage} />
+			</Route>
+			<Route path="/login" component={AuthPage} />
+			<Route path="*404" component={NotFoundPage} />
 		</Router>
 	),
 	root,

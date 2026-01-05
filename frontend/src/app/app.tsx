@@ -1,9 +1,11 @@
+import { MetaProvider } from "@solidjs/meta";
+import { Button } from "@ui/button";
 import { Footer } from "@ui/footer";
-
 import { Navbar } from "@ui/navbar";
 import { Settings } from "lucide-solid";
 import { type Component, ErrorBoundary, type ParentProps } from "solid-js";
 import { FloatingActionButtons } from "../components/layout/floatingActionButtons";
+import { Seo } from "../components/seo";
 import { LanguageFloatButton } from "../features/language/components/languageSwitcher";
 import { ThemeFloatButton } from "../features/theme/components/themeFloatButton";
 import { AuthProvider } from "./context/auth";
@@ -21,24 +23,27 @@ export const App: Component<Props> = (props) => {
 				<ConfigProvider>
 					<SupabaseProvider>
 						<AuthProvider>
-							<Navbar />
-							<ErrorBoundary
-								fallback={(error, reset) => (
-									<div>
-										<p>Something went wrong: {error.message}</p>
-										<button type="button" onClick={reset}>
-											Try Again
-										</button>
-									</div>
-								)}
-							>
-								<main class="px-2 py-5 bg-base-200 md:px-40">{props.children}</main>
-							</ErrorBoundary>
-							<Footer />
-							<FloatingActionButtons buttonContent={<Settings />}>
-								<LanguageFloatButton />
-								<ThemeFloatButton />
-							</FloatingActionButtons>
+							<MetaProvider>
+								<Seo />
+								<Navbar />
+								<ErrorBoundary
+									fallback={(error, reset) => (
+										<div>
+											<p>Something went wrong: {error.message}</p>
+											<Button type="button" onClick={reset}>
+												Try again
+											</Button>
+										</div>
+									)}
+								>
+									<main class="px-2 py-5 bg-base-200 md:px-40">{props.children}</main>
+								</ErrorBoundary>
+								<Footer />
+								<FloatingActionButtons buttonContent={<Settings />}>
+									<LanguageFloatButton />
+									<ThemeFloatButton />
+								</FloatingActionButtons>
+							</MetaProvider>
 						</AuthProvider>
 					</SupabaseProvider>
 				</ConfigProvider>

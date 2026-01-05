@@ -28,7 +28,7 @@ export function ProtectedRoute(props: Props) {
 								<h2 class="card-title justify-center">{t("auth.accessDenied")}</h2>
 								<p>{t("auth.loginRequired")}</p>
 								<div class="card-actions justify-center">
-									<a href="/auth" class="btn btn-primary">
+									<a href="/login" class="btn btn-primary">
 										{t("auth.signIn")}
 									</a>
 								</div>

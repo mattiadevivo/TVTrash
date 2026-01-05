@@ -13,7 +13,6 @@ import {
 	getTelegramNotificationTypeId,
 	type NotificationPreference,
 	saveNotificationPreference,
-	sendTestMessage,
 } from "../../supabase/account";
 import { useI18n } from "../context/i18n";
 import { useSupabase } from "../context/supabase";
@@ -96,24 +95,6 @@ export function AccountPage() {
 		}
 	};
 
-	// Test notification handler
-	const testNotification = async () => {
-		if (!telegramChatId().trim()) {
-			setError(t("account.errors.saveChatIdFirst"));
-			return;
-		}
-		try {
-			await sendTestMessage(
-				supabase,
-				(await auth.getSession()).access_token,
-				telegramChatId().trim(),
-			);
-			setSuccess(t("account.success.testSent"));
-		} catch {
-			setError(t("account.errors.sendTestError"));
-		}
-	};
-
 	// Delete notificationPreference handler
 	const handleDelete = async () => {
 		setIsDeleting(true);
@@ -143,7 +124,7 @@ export function AccountPage() {
 					</ul>
 				</div>
 				<h1 class="text-3xl font-bold mb-8">{t("account.notificationSettings")}</h1>
-				<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 					<div>
 						<TelegramNotificationForm
 							municipalities={municipalities()}
@@ -156,7 +137,6 @@ export function AccountPage() {
 							onToggleInstructions={() => setShowInstructions(!showInstructions())}
 							error={error}
 							success={success}
-							onTestNotification={testNotification}
 							onSubmit={handleSubmit}
 						/>
 					</div>

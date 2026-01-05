@@ -1,10 +1,10 @@
 export const it = {
-	// Placeholders
 	hello: "Ciao",
-	notFound: "Pagina non trovata",
+	notFound: "404 | Pagina non trovata",
 	auth: {
+		welcomeBack: "Benvenuto",
 		signIn: "Accedi",
-		signInDescription: "Inserisci la tua email, riceverai un link da usare come OTP",
+		signInDescription: "Inserisci la tua email, riceverai un link per accedere al tuo account.",
 		email: "Email",
 		emailPlaceholder: "Inserisci la tua email",
 		signInSuccess: "Controlla la tua casella di posta per completare il processo di accesso.",
@@ -14,6 +14,22 @@ export const it = {
 		loginRequired: "Devi effettuare l'accesso per visualizzare questa pagina.",
 		logout: "Esci",
 		user: "Utente",
+	},
+	landing: {
+		hero: {
+			title: "Non dimenticare mai più di buttare la spazzatura!",
+			description:
+				"Ricevi quotidianamente un reminder su Telegram con i dettagli dei bidoni da portare in strada per la raccolta rifiuti del giorno successivo, nel tuo comune, in provincia di Treviso. Semplice, puntuale e gratuito. Nessuna installazione necessaria!",
+			ctaCalendar: "Vai al Calendario",
+			ctaAuth: "Accedi per configurare le notifiche",
+		},
+		mockup: {
+			notification: {
+				title: "TVTrash	",
+				body: "🗑️ Promemoria: Domani raccolta Plastica e Carta.",
+				time: "20:00",
+			},
+		},
 	},
 	account: {
 		profile: "Profilo",
@@ -106,7 +122,6 @@ export const it = {
 		},
 	},
 	footer: {
-		copyright: "Copyright © {{year}} - Tutti i diritti riservati",
 		madeBy: "Sviluppato con ❤️ da",
 	},
 	navbar: {
@@ -126,12 +141,12 @@ export const it = {
 };
 
 export const en = {
-	// Placeholders
 	hello: "Hello",
-	notFound: "Page not found",
+	notFound: "404 | Page not found",
 	auth: {
+		welcomeBack: "Welcome back",
 		signIn: "Sign In",
-		signInDescription: "Insert your email, you'll receive a link that will be used as OTP",
+		signInDescription: "Insert your email, you'll receive a link to login to your account.",
 		email: "Email",
 		emailPlaceholder: "Enter your email",
 		signInSuccess:
@@ -142,6 +157,22 @@ export const en = {
 		loginRequired: "You need to be logged in to access this page.",
 		logout: "Logout",
 		user: "User",
+	},
+	landing: {
+		hero: {
+			title: "Never forget to take out the trash again!",
+			description:
+				"Receive a notification on Telegram everyday with details about the next day's waste collection, for your municipality in Treviso province. Simple, punctual, and free. No installation required!",
+			ctaCalendar: "Go to Calendar",
+			ctaAuth: "Sign In for Notifications",
+		},
+		mockup: {
+			notification: {
+				title: "TVTrash",
+				body: "🗑️ Reminder: Tomorrow Plastic and Paper collection.",
+				time: "8:00 PM",
+			},
+		},
 	},
 	account: {
 		profile: "Profile",
@@ -233,7 +264,6 @@ export const en = {
 		},
 	},
 	footer: {
-		copyright: "Copyright © {{year}} - All rights reserved",
 		madeBy: "Made with ❤️ by",
 	},
 	navbar: {

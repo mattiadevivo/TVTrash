@@ -21,18 +21,18 @@ export const Navbar: Component<Navbar> = (_props) => {
 						alt="TVTrash logo"
 						class="size-8 animate-spin [animation-duration:7s]"
 					/>
-					TVTrash
+					trevisorifiuti
 				</A>
 			</div>
 
 			<div class="flex items-center h-14 gap-2">
-				<A href="/" class="btn btn-primary btn-sm">
+				<A href="/calendar" class="btn btn-primary btn-sm">
 					{t("navbar.calendar")}
 				</A>
 				<Show
 					when={auth.user()}
 					fallback={
-						<A href="/auth" class="btn btn-accent btn-sm">
+						<A href="/login" class="btn btn-accent btn-sm">
 							{t("navbar.signIn")}
 						</A>
 					}

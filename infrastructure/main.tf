@@ -54,7 +54,11 @@ resource "render_static_site" "tvtrash_dev" {
     }
   }
 
-
+  routes = [{
+    source      = "/*"
+    destination = "/index.html"
+    type        = "redirect"
+  }]
   #custom_domains = [
   #  { name : "static-site.example.com" },
   #]
