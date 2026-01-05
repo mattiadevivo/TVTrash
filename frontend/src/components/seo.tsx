@@ -25,11 +25,20 @@ export const Seo: Component<Props> = (props) => {
 				"treviso ecocalendario contarina",
 				"treviso ecocalendario rifiuti",
 				"contarina ecocalendario raccolta",
+				"contarina ecocalendario notifiche",
 				"contarina calendario rifiuti",
 				"contarina calendario raccolta",
+				"contarina calendario notifiche",
 			],
-			longTail: ["", "next.js seo best practices 2024"],
-			location: ["react seo nigeria", "next.js developer lagos"],
+			longTail: [
+				"ecocalendario contarina provincia treviso",
+				"calendario raccolta rifiuti contarina",
+				"contarina calendario notifiche",
+			],
+			location: [
+				"calendario raccolta rifiuti treviso",
+				"calendario raccolta rifiuti contarina provincia treviso",
+			],
 		},
 	};
 

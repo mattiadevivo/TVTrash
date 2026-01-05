@@ -28,14 +28,13 @@ render(
 			<Route path="/calendar" component={RootPage} />
 			<Route
 				path="/account"
-				component={() => (
-					<ProtectedRoute>
-						<AccountPage />
-					</ProtectedRoute>
-				)}
-			/>
+				component={(props) => <ProtectedRoute>{props.children}</ProtectedRoute>}
+			>
+				{/*<Route path="/" c></Route>*/}
+				<Route path="/notifications" component={AccountPage} />
+			</Route>
 			<Route path="/auth" component={AuthPage} />
-			<Route path="*paramName" component={NotFoundPage} />
+			<Route path="*404" component={NotFoundPage} />
 		</Router>
 	),
 	root,

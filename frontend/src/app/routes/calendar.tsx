@@ -34,7 +34,7 @@ export const RootPage: Component = () => {
 	});
 
 	const handleConfigureNotifications = () => {
-		navigate("/account");
+		navigate("/account/notifications");
 	};
 
 	createEffect(() => {
