@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Disallow: /account/notifications
+Disallow: /login
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+User-agent: BingBot
+Allow: /
+Crawl-delay: 1
+User-agent: AhrefsBot
+Disallow: /
+User-agent: SemrushBot
+Disallow: /
+
+Sitemap: https://trevisorifiuti.top/sitemap.xml
