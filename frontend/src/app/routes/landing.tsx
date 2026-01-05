@@ -1,7 +1,7 @@
 import { A } from "@solidjs/router";
+import { Send } from "lucide-solid";
 import type { Component } from "solid-js";
 import { useI18n } from "../context/i18n";
-import { Send } from "lucide-solid";
 
 export const LandingPage: Component = () => {
 	const { t } = useI18n();

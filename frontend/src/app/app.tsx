@@ -1,11 +1,11 @@
-import { Footer } from "@ui/footer";
-
-import { Navbar } from "@ui/navbar";
 import { MetaProvider } from "@solidjs/meta";
-import { Seo } from "../components/seo";
+import { Button } from "@ui/button";
+import { Footer } from "@ui/footer";
+import { Navbar } from "@ui/navbar";
 import { Settings } from "lucide-solid";
 import { type Component, ErrorBoundary, type ParentProps } from "solid-js";
 import { FloatingActionButtons } from "../components/layout/floatingActionButtons";
+import { Seo } from "../components/seo";
 import { LanguageFloatButton } from "../features/language/components/languageSwitcher";
 import { ThemeFloatButton } from "../features/theme/components/themeFloatButton";
 import { AuthProvider } from "./context/auth";
@@ -13,7 +13,6 @@ import { ConfigProvider } from "./context/config";
 import { I18nProvider } from "./context/i18n";
 import { SupabaseProvider } from "./context/supabase";
 import { ThemeProvider } from "./context/theme";
-import { Button } from "@ui/button";
 
 interface Props extends ParentProps {}
 

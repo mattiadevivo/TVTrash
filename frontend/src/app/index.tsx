@@ -7,9 +7,9 @@ import { render } from "solid-js/web";
 import { ProtectedRoute } from "../features/auth/components/protectedRoute";
 import { App } from "./app";
 import { AccountPage } from "./routes/account";
-import { AuthPage } from "./routes/login";
 import { RootPage } from "./routes/calendar";
 import { LandingPage } from "./routes/landing";
+import { AuthPage } from "./routes/login";
 import { NotFoundPage } from "./routes/notFound";
 
 const root = document.getElementById("root");

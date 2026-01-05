@@ -17,6 +17,9 @@ const buttonStyles = cva("btn", {
 			circle: "btn-circle",
 			square: "btn-square", // 1:1 ratio
 		},
+		outline: {
+			true: "btn-outline",
+		},
 		shadow: {
 			lg: "shadow-lg hover:shadow-xl",
 		},
@@ -33,9 +36,13 @@ export interface Props
 		VariantProps<typeof buttonStyles> {}
 
 export const Button: ParentComponent<Props> = (props) => {
-	const { intent, size, shape, shadow, width } = props;
+	const { intent, size, shape, shadow, width, outline } = props;
 	return (
-		<button type="button" class={buttonStyles({ intent, size, shape, shadow, width })} {...props}>
+		<button
+			type="button"
+			class={buttonStyles({ intent, size, shape, shadow, width, outline })}
+			{...props}
+		>
 			{props.children}
 		</button>
 	);
