@@ -2,13 +2,12 @@
 import "solid-devtools";
 import "./index.css";
 
-import { MetaProvider } from "@solidjs/meta";
 import { Route, Router } from "@solidjs/router";
 import { render } from "solid-js/web";
 import { ProtectedRoute } from "../features/auth/components/protectedRoute";
 import { App } from "./app";
 import { AccountPage } from "./routes/account";
-import { AuthPage } from "./routes/auth";
+import { AuthPage } from "./routes/login";
 import { RootPage } from "./routes/calendar";
 import { LandingPage } from "./routes/landing";
 import { NotFoundPage } from "./routes/notFound";
@@ -33,7 +32,7 @@ render(
 				{/*<Route path="/" c></Route>*/}
 				<Route path="/notifications" component={AccountPage} />
 			</Route>
-			<Route path="/auth" component={AuthPage} />
+			<Route path="/login" component={AuthPage} />
 			<Route path="*404" component={NotFoundPage} />
 		</Router>
 	),

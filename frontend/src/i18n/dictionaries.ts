@@ -1,10 +1,10 @@
 export const it = {
-	// Placeholders
 	hello: "Ciao",
-	notFound: "Pagina non trovata",
+	notFound: "404 | Pagina non trovata",
 	auth: {
+		welcomeBack: "Benvenuto",
 		signIn: "Accedi",
-		signInDescription: "Inserisci la tua email, riceverai un link da usare come OTP",
+		signInDescription: "Inserisci la tua email, riceverai un link per accedere al tuo account.",
 		email: "Email",
 		emailPlaceholder: "Inserisci la tua email",
 		signInSuccess: "Controlla la tua casella di posta per completare il processo di accesso.",
@@ -122,7 +122,6 @@ export const it = {
 		},
 	},
 	footer: {
-		copyright: "Copyright © {{year}} - Tutti i diritti riservati",
 		madeBy: "Sviluppato con ❤️ da",
 	},
 	navbar: {
@@ -142,12 +141,12 @@ export const it = {
 };
 
 export const en = {
-	// Placeholders
 	hello: "Hello",
-	notFound: "Page not found",
+	notFound: "404 | Page not found",
 	auth: {
+		welcomeBack: "Welcome back",
 		signIn: "Sign In",
-		signInDescription: "Insert your email, you'll receive a link that will be used as OTP",
+		signInDescription: "Insert your email, you'll receive a link to login to your account.",
 		email: "Email",
 		emailPlaceholder: "Enter your email",
 		signInSuccess:
@@ -265,7 +264,6 @@ export const en = {
 		},
 	},
 	footer: {
-		copyright: "Copyright © {{year}} - All rights reserved",
 		madeBy: "Made with ❤️ by",
 	},
 	navbar: {

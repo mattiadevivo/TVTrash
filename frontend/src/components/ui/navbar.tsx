@@ -21,7 +21,7 @@ export const Navbar: Component<Navbar> = (_props) => {
 						alt="TVTrash logo"
 						class="size-8 animate-spin [animation-duration:7s]"
 					/>
-					TVTrash
+					trevisorifiuti
 				</A>
 			</div>
 
@@ -32,7 +32,7 @@ export const Navbar: Component<Navbar> = (_props) => {
 				<Show
 					when={auth.user()}
 					fallback={
-						<A href="/auth" class="btn btn-accent btn-sm">
+						<A href="/login" class="btn btn-accent btn-sm">
 							{t("navbar.signIn")}
 						</A>
 					}

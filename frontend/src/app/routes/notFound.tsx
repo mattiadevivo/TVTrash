@@ -3,5 +3,5 @@ import { useI18n } from "../context/i18n";
 
 export const NotFoundPage: Component = () => {
 	const { t } = useI18n();
-	return <h1 class="text-3xl text-blue-700 text-center py-20">{t("notFound")}</h1>;
+	return <h1 class="h-svh text-3xl text-primary/80 text-center pt-30">{t("notFound")}</h1>;
 };

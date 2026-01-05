@@ -124,7 +124,7 @@ export function AccountPage() {
 					</ul>
 				</div>
 				<h1 class="text-3xl font-bold mb-8">{t("account.notificationSettings")}</h1>
-				<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 					<div>
 						<TelegramNotificationForm
 							municipalities={municipalities()}

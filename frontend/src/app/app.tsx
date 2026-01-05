@@ -13,6 +13,7 @@ import { ConfigProvider } from "./context/config";
 import { I18nProvider } from "./context/i18n";
 import { SupabaseProvider } from "./context/supabase";
 import { ThemeProvider } from "./context/theme";
+import { Button } from "@ui/button";
 
 interface Props extends ParentProps {}
 
@@ -30,9 +31,9 @@ export const App: Component<Props> = (props) => {
 									fallback={(error, reset) => (
 										<div>
 											<p>Something went wrong: {error.message}</p>
-											<button type="button" onClick={reset}>
-												Try Again
-											</button>
+											<Button type="button" onClick={reset}>
+												Try again
+											</Button>
 										</div>
 									)}
 								>

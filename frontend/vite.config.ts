@@ -21,7 +21,7 @@ export default defineConfig({
 				{
 					userAgent: "*",
 					allow: ["/"],
-					disallow: ["/account/notifications", "/auth"],
+					disallow: ["/account/notifications", "/login"],
 				},
 				// Specific bots
 				{

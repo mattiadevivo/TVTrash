@@ -33,9 +33,9 @@ export interface Props
 		VariantProps<typeof buttonStyles> {}
 
 export const Button: ParentComponent<Props> = (props) => {
-	const { intent, size, shape, shadow } = props;
+	const { intent, size, shape, shadow, width } = props;
 	return (
-		<button type="button" class={buttonStyles({ intent, size, shape, shadow })} {...props}>
+		<button type="button" class={buttonStyles({ intent, size, shape, shadow, width })} {...props}>
 			{props.children}
 		</button>
 	);
