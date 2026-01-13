@@ -48,6 +48,9 @@ export default defineConfig({
 		VitePWA({
 			registerType: "autoUpdate",
 			includeAssets: ["favicon.ico", "apple-touch-icon-180x180.png", "maskable-icon-512x512.png"],
+			workbox: {
+				navigateFallbackDenylist: [/^\/robots\.txt$/, /^\/sitemap\.xml$/, /\.png$/, /\.ico$/],
+			},
 			manifest: {
 				name: "trevisorifiuti",
 				short_name: "tvtrash",

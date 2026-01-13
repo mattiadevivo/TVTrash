@@ -33,6 +33,7 @@ render(
 				<Route path="/notifications" component={AccountPage} />
 			</Route>
 			<Route path="/login" component={AuthPage} />
+			<Route path="*" component={NotFoundPage} />
 		</Router>
 	),
 	root,
