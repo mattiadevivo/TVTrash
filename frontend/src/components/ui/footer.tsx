@@ -1,13 +1,24 @@
 import type { Component } from "solid-js";
 import { useI18n } from "../../app/context/i18n";
+import { siGithub } from "simple-icons";
 
 export const Footer: Component = () => {
 	const { t } = useI18n();
 	return (
 		<footer class="footer sm:footer-horizontal bg-base-100 text-base-content items-center py-4 px-8">
 			<aside class="grid-flow-col items-center justify-self-center md:justify-self-start">
-				<img src="/favicon.png" alt="TVTrash logo" class="size-8" />
-				<p>trevisorifiuti</p>
+				<a
+					href="https://github.com/mattiadevivo/TVTrash"
+					target="_blank"
+					rel="noreferrer"
+					class="btn btn-ghost btn-circle btn-sm"
+					aria-label="GitHub"
+				>
+					<svg viewBox="0 0 24 24" role="img" class="fill-current">
+						<title>GitHub</title>
+						<path d={siGithub.path} />
+					</svg>
+				</a>
 			</aside>
 			<aside class="grid-flow-col justify-self-center">
 				<a
@@ -32,8 +43,11 @@ export const Footer: Component = () => {
 					{t("compliance.termsAndConditions.title")}
 				</a>
 			</aside>
-			<aside class="grid-flow-col justify-self-center md:justify-self-end">
-				{t("footer.madeBy")} <a href="https://mattiadevivo.dev">Mattia De Vivo</a>
+			<aside class="grid-flow-col justify-self-center md:justify-self-end items-center gap-4">
+				{t("footer.madeBy")}{" "}
+				<a href="https://mattiadevivo.dev" target="_blank" rel="noreferrer">
+					Mattia De Vivo
+				</a>
 			</aside>
 		</footer>
 	);
